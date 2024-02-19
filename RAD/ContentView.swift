@@ -6,18 +6,30 @@
 //
 
 import SwiftUI
+import RealityKit
+import ARKit
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hi RAD Team")
-            Text("LOL")
+        ZStack(alignment: .bottom){
+            ARViewContainer()
         }
-        .padding()
+        
     }
+}
+
+struct ARViewContainer: UIViewRepresentable {
+    
+    func makeUIView(context: Context) -> ARView {
+        let arView = ARView (frame: .zero)
+        
+        return arView
+    }
+    
+    func updateUIView(_ uiView: ARView, context: Context) {
+       
+    }
+    
 }
 
 #Preview {
