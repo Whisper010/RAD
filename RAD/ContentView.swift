@@ -22,7 +22,8 @@ class ARLogic {
 
 struct ContentView: View {
     
-    var arLogic = ARLogic.shared
+    @State var arLogic = ARLogic.shared
+    
     
     var body: some View {
         ZStack(alignment: .bottom){
