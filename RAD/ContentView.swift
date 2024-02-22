@@ -24,27 +24,32 @@ struct ContentView: View {
     
     @State var arLogic = ARLogic.shared
     
-    
     var body: some View {
         ZStack(alignment: .bottom){
             ARViewContainer()
-            SomeView(isPlacementEnabled: arLogic.isPlacementEnabled)
+            HStack{
+                Button(action:{}){
+                    Image(systemName: "rectangle.3.group")
+                }
+                .buttonStyle(.plain)
+                .padding()
+                
+                Button(action:{}){
+                    Image(systemName: "scribble.variable")
+                }
+                .buttonStyle(.plain)
+                .padding()
+                Button(action:{}){
+                    Image(systemName: "camera")
+                }
+                .buttonStyle(.plain)
+                .padding()
+            }
         }
         
     }
 }
 
-struct SomeView : View {
-    
-     var isPlacementEnabled: Bool
-    
-    var body: some View{
-        if isPlacementEnabled{
-            EmptyView()
-        }
-        EmptyView()
-    }
-}
 
 struct ARViewContainer: UIViewRepresentable {
     
