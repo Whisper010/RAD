@@ -11,18 +11,11 @@ import ARKit
 
 @Observable
 class ARLogic {
-    var isPlacementEnabled: Bool
-    
-    static let shared: ARLogic = ARLogic()
-    
-    private init() {
-        self.isPlacementEnabled = true
-    }
+
 }
 
 struct ContentView: View {
     
-    @State var arLogic = ARLogic.shared
     
     var body: some View {
         ZStack(alignment: .bottom){
