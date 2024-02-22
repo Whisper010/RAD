@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232730BE2B874DA300F4DD00 /* DrawPanelView.swift */; };
+		232730C12B8751FC00F4DD00 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232730C02B8751FC00F4DD00 /* ToolView.swift */; };
 		23848F4E2B7B73AC009FF40B /* RADApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F4D2B7B73AC009FF40B /* RADApp.swift */; };
 		23848F502B7B73AC009FF40B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F4F2B7B73AC009FF40B /* ContentView.swift */; };
 		23848F522B7B73AD009FF40B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23848F512B7B73AD009FF40B /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		232730BE2B874DA300F4DD00 /* DrawPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawPanelView.swift; sourceTree = "<group>"; };
+		232730C02B8751FC00F4DD00 /* ToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
 		23848F4A2B7B73AC009FF40B /* RAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23848F4D2B7B73AC009FF40B /* RADApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADApp.swift; sourceTree = "<group>"; };
 		23848F4F2B7B73AC009FF40B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 			children = (
 				23848F4D2B7B73AC009FF40B /* RADApp.swift */,
 				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
+				232730C02B8751FC00F4DD00 /* ToolView.swift */,
+				232730BE2B874DA300F4DD00 /* DrawPanelView.swift */,
 				23848F512B7B73AD009FF40B /* Assets.xcassets */,
 				23848F532B7B73AD009FF40B /* Preview Content */,
 			);
@@ -257,7 +263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */,
 				23848F502B7B73AC009FF40B /* ContentView.swift in Sources */,
+				232730C12B8751FC00F4DD00 /* ToolView.swift in Sources */,
 				23848F4E2B7B73AC009FF40B /* RADApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

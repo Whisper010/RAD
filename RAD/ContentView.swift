@@ -11,37 +11,37 @@ import ARKit
 
 @Observable
 class ARLogic {
-
+    var isDrawPanelEnabled: Bool = false
+    
+    static var shared: ARLogic = ARLogic()
+    
+    private init() {
+        
+    }
+    
 }
 
 struct ContentView: View {
     
+    private var arLogic = ARLogic.shared
     
     var body: some View {
-        ZStack(alignment: .bottom){
+        ZStack(alignment:.bottom){
             ARViewContainer()
-            HStack{
-                Button(action:{}){
-                    Image(systemName: "rectangle.3.group")
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack{
+                if arLogic.isDrawPanelEnabled{
+                    DrawPanelView()
                 }
-                .buttonStyle(.plain)
-                .padding()
-                
-                Button(action:{}){
-                    Image(systemName: "scribble.variable")
-                }
-                .buttonStyle(.plain)
-                .padding()
-                Button(action:{}){
-                    Image(systemName: "camera")
-                }
-                .buttonStyle(.plain)
-                .padding()
+                ToolView()
             }
+            
         }
         
     }
 }
+
 
 
 struct ARViewContainer: UIViewRepresentable {
