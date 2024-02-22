@@ -10,7 +10,10 @@ import SwiftUI
 
 struct DrawPanelView: View {
     
+    @Environment(ARLogic.self) private var arLogic
+    @State var selectedColor: Color = .blue
 
+    
     var body : some View{
         HStack{
             Button(action:{}) {
@@ -29,14 +32,20 @@ struct DrawPanelView: View {
             }
             .buttonStyle(.plain)
             .padding()
-            Button(action:{}) {
-                VStack{
-                    Image(systemName: "square.fill")
-                        .foregroundStyle(.black)
-                    Text("Pallete")
-                }
+            
+            VStack{
+                Image(systemName: "paintbrush.pointed")
+                    .opacity(0)
+                    .overlay{
+                        ColorPicker("",selection: $selectedColor)
+                            .labelsHidden()
+                            .frame(width: 16, height: 16)
+                            .clipShape(RoundedRectangle(cornerRadius: 2.0))
+                    }
+        
+                Text("Pallete")
             }
-            .buttonStyle(.plain)
+                
             .padding()
             Button(action:{}) {
                 VStack{
@@ -64,5 +73,5 @@ struct DrawPanelView: View {
 
 
 #Preview {
-    DrawPanelView()
+    DrawPanelView(selectedColor: .black)
 }

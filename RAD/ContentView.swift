@@ -9,40 +9,47 @@ import SwiftUI
 import RealityKit
 import ARKit
 
+enum Mode{
+    case shape
+    case draw
+    case camera
+    case none
+    
+}
+
 @Observable
 class ARLogic {
-    var isDrawPanelEnabled: Bool = false
-    var showingShapesPicker = false
-    
-    static var shared: ARLogic = ARLogic()
-    
-    private init() {
-        
-    }
-    
+    var currentMode: Mode = .none
+    var selectedColor: Color = .black
 }
 
 struct ContentView: View {
     
-    private var arLogic = ARLogic.shared
+    @Environment(ARLogic.self) private var arLogic
+    
     
     var body: some View {
         ZStack(alignment: .bottom) {
             ARViewContainer()
+                .allowsHitTesting(false)
                 .edgesIgnoringSafeArea(.all)
             
             VStack{
-                if arLogic.isDrawPanelEnabled {
-                    DrawPanelView()
+                
+                if arLogic.currentMode == .shape  {
+                    ShapeView()                            .transition(.move(edge: .bottom))
+                }
+                if arLogic.currentMode == .draw {
+                    DrawPanelView(selectedColor: arLogic.selectedColor)
                 }
                 
-                if arLogic.showingShapesPicker {
-                    ShapeView ()                            .transition(.move(edge: .bottom))
-                        .animation(.default)
-                }
+                ToolView()
+                    
             }
+            
         }
-        ToolView()
+       
+        
     }
 }
 

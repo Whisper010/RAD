@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ToolView: View{
     
-    private var arLogic = ARLogic.shared
+    @Environment(ARLogic.self) private var arLogic
     
     var body: some View{
-        HStack(){
+        HStack(spacing: 20){
             
             Button(action:{
-                arLogic.showingShapesPicker.toggle()
+                arLogic.currentMode = .shape
                 print("DEBUG: Draw Mode activate")
             }){
                 Image(systemName: "rectangle.3.group")
@@ -23,8 +23,9 @@ struct ToolView: View{
             }
             .buttonStyle(.plain)
             .padding()
+            
             Button(action:{
-                arLogic.isDrawPanelEnabled = true
+                arLogic.currentMode = .draw
                 print("DEBUG: Draw Mode activate")
                 
             }){
@@ -32,6 +33,7 @@ struct ToolView: View{
             }
             .buttonStyle(.plain)
             .padding()
+           
             Button(action:{
                 print("DEBUG: Camera Mode activate")
             }){
@@ -39,6 +41,7 @@ struct ToolView: View{
             }
             .buttonStyle(.plain)
             .padding()
+            
             
         }
     }
