@@ -9,19 +9,30 @@ import SwiftUI
 import RealityKit
 import ARKit
 
-class ARLogic: ObservableObject {
-    // Properties for AR logic
+@Observable
+class ARLogic {
+    var isDrawPanelEnabled: Bool = false
+    
+    static var shared: ARLogic = ARLogic()
+    
+    private init() {
+        
+    }
+    
 }
 
 struct ContentView: View {
-    @StateObject var arLogic = ARLogic()
     @State private var showingShapesPicker = false
+    
+    private var arLogic = ARLogic.shared
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            ARViewContainer()
+        ARViewContainer()
                 .edgesIgnoringSafeArea(.all)
             
+            if showingShapesPicker {
+                ShapeView { shape in
             if showingShapesPicker {
                 ShapeView { shape in
                     // Handle shape selection
@@ -49,15 +60,16 @@ struct ContentView: View {
                 
                 Button(action: {}) {
                     Image(systemName: "camera")
-                }
-                .buttonStyle(PlainButtonStyle())
+            VStack{
+                if arLogic.isDrawPanelEnabled{
+                    DrawPanelView()
                 .padding()
-            }
+                ToolView()
+            .cornerRadius(20)
             .background(Color.black.opacity(0.5))
             .cornerRadius(20)
             .padding()
-        }
-    }
+            
 }
 
 
