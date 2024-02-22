@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ShapeView: View {
+    
     var didSelectShape: (String) -> Void
     
     var body: some View {

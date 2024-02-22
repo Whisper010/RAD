@@ -30,23 +30,27 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             ARViewContainer()
                 .edgesIgnoringSafeArea(.all)
-            
-            ToolView()
-            
-            if arLogic.showingShapesPicker {
-                ShapeView { shape in
-                    if arLogic.showingShapesPicker {
-                        ShapeView { shape in
-                            // Handle shape selection
-                            print("Selected shape: \(shape)")
-                            arLogic.showingShapesPicker = false
+            VStack{
+                if arLogic.isDrawPanelEnabled {
+                    DrawPanelView()
+                }
+                
+                ToolView()
+                if arLogic.showingShapesPicker {
+                    ShapeView { shape in
+                        if arLogic.showingShapesPicker {
+                            ShapeView { shape in
+                                // Handle shape selection
+                                print("Selected shape: \(shape)")
+                                arLogic.showingShapesPicker = false
+                            }
+                            .transition(.move(edge: .bottom))
+                            .animation(.default)
                         }
-                        .transition(.move(edge: .bottom))
-                        .animation(.default)
+                        
                     }
                     
                 }
-                
             }
         }
     }
