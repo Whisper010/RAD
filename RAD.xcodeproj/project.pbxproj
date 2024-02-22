@@ -14,6 +14,7 @@
 		23848F5F2B7B73AD009FF40B /* RADTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F5E2B7B73AD009FF40B /* RADTests.swift */; };
 		23848F692B7B73AD009FF40B /* RADUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F682B7B73AD009FF40B /* RADUITests.swift */; };
 		23848F6B2B7B73AD009FF40B /* RADUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */; };
+		69BB71F42B875936002320C3 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB71F32B875936002320C3 /* ShapeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		23848F642B7B73AD009FF40B /* RADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RADUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23848F682B7B73AD009FF40B /* RADUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITests.swift; sourceTree = "<group>"; };
 		23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		69BB71F32B875936002320C3 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				23848F4D2B7B73AC009FF40B /* RADApp.swift */,
 				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
+				69BB71F32B875936002320C3 /* ShapeView.swift */,
 				23848F512B7B73AD009FF40B /* Assets.xcassets */,
 				23848F532B7B73AD009FF40B /* Preview Content */,
 			);
@@ -257,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69BB71F42B875936002320C3 /* ShapeView.swift in Sources */,
 				23848F502B7B73AC009FF40B /* ContentView.swift in Sources */,
 				23848F4E2B7B73AC009FF40B /* RADApp.swift in Sources */,
 			);
@@ -422,7 +426,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RAD/Preview Content\"";
-				DEVELOPMENT_TEAM = SP96A7HF6V;
+				DEVELOPMENT_TEAM = VHQ6HZ79LK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Because i needed";
@@ -452,7 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RAD/Preview Content\"";
-				DEVELOPMENT_TEAM = SP96A7HF6V;
+				DEVELOPMENT_TEAM = VHQ6HZ79LK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Because i needed";
