@@ -24,18 +24,18 @@ class ARLogic {
 
 struct ContentView: View {
     
-    @State private var arLogic = ARLogic.shared
+    private var arLogic = ARLogic.shared
     
     var body: some View {
         ZStack(alignment: .bottom) {
             ARViewContainer()
                 .edgesIgnoringSafeArea(.all)
+            
             VStack{
                 if arLogic.isDrawPanelEnabled {
                     DrawPanelView()
                 }
                 
-                ToolView()
                 if arLogic.showingShapesPicker {
                     ShapeView { shape in
                         if arLogic.showingShapesPicker {
@@ -47,10 +47,9 @@ struct ContentView: View {
                             .transition(.move(edge: .bottom))
                             .animation(.default)
                         }
-                        
                     }
-                    
                 }
+                ToolView()
             }
         }
     }
