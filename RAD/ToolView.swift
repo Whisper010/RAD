@@ -15,6 +15,7 @@ struct ToolView: View{
         HStack(){
             
             Button(action:{
+                arLogic.showingShapesPicker.toggle()
                 print("DEBUG: Draw Mode activate")
             }){
                 Image(systemName: "rectangle.3.group")

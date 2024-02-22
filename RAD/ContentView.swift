@@ -12,6 +12,7 @@ import ARKit
 @Observable
 class ARLogic {
     var isDrawPanelEnabled: Bool = false
+    var showingShapesPicker = false
     
     static var shared: ARLogic = ARLogic()
     
@@ -22,54 +23,33 @@ class ARLogic {
 }
 
 struct ContentView: View {
-    @State private var showingShapesPicker = false
     
-    private var arLogic = ARLogic.shared
+    @State private var arLogic = ARLogic.shared
     
     var body: some View {
         ZStack(alignment: .bottom) {
-        ARViewContainer()
+            ARViewContainer()
                 .edgesIgnoringSafeArea(.all)
             
-            if showingShapesPicker {
+            ToolView()
+            
+            if arLogic.showingShapesPicker {
                 ShapeView { shape in
-            if showingShapesPicker {
-                ShapeView { shape in
-                    // Handle shape selection
-                    print("Selected shape: \(shape)")
-                    self.showingShapesPicker = false
+                    if arLogic.showingShapesPicker {
+                        ShapeView { shape in
+                            // Handle shape selection
+                            print("Selected shape: \(shape)")
+                            arLogic.showingShapesPicker = false
+                        }
+                        .transition(.move(edge: .bottom))
+                        .animation(.default)
+                    }
+                    
                 }
-                .transition(.move(edge: .bottom))
-                .animation(.default)
+                
             }
-            
-            HStack {
-                Button(action: {
-                    self.showingShapesPicker.toggle()
-                }) {
-                    Image(systemName: "rectangle.3.group")
-                }
-                .buttonStyle(PlainButtonStyle())
-                .padding()
-                
-                Button(action: {}) {
-                    Image(systemName: "scribble.variable")
-                }
-                .buttonStyle(PlainButtonStyle())
-                .padding()
-                
-                Button(action: {}) {
-                    Image(systemName: "camera")
-            VStack{
-                if arLogic.isDrawPanelEnabled{
-                    DrawPanelView()
-                .padding()
-                ToolView()
-            .cornerRadius(20)
-            .background(Color.black.opacity(0.5))
-            .cornerRadius(20)
-            .padding()
-            
+        }
+    }
 }
 
 

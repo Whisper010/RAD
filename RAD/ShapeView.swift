@@ -30,6 +30,6 @@ struct ShapeView: View {
     }
 }
 
-#Preview {
-    ShapeView()
-}
+//#Preview {
+//    ShapeView(didSelectShape: <#(String) -> Void#>)
+//}
