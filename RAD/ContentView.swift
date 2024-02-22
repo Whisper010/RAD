@@ -37,23 +37,15 @@ struct ContentView: View {
                 }
                 
                 if arLogic.showingShapesPicker {
-                    ShapeView { shape in
-                        if arLogic.showingShapesPicker {
-                            ShapeView { shape in
-                                // Handle shape selection
-                                print("Selected shape: \(shape)")
-                                arLogic.showingShapesPicker = false
-                            }
-                            .transition(.move(edge: .bottom))
-                            .animation(.default)
-                        }
-                    }
+                    ShapeView ()                            .transition(.move(edge: .bottom))
+                        .animation(.default)
                 }
-                ToolView()
             }
         }
+        ToolView()
     }
 }
+
 
 
 

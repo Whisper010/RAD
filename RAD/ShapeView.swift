@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ShapeView: View {
     
-    var didSelectShape: (String) -> Void
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(["Shape1", "Shape2", "Shape3"], id: \.self) { shape in
-                    Button(shape) {
-                        self.didSelectShape(shape)
+                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                        Image(shape)
+                    }
                     }
                     .padding()
                     .background(Color.gray)
@@ -25,12 +25,12 @@ struct ShapeView: View {
                 }
             }
             .padding()
+            .background(Color.white)
+            .cornerRadius(15)
         }
-        .background(Color.white)
-        .cornerRadius(15)
+        
     }
-}
 
-//#Preview {
-//    ShapeView(didSelectShape: <#(String) -> Void#>)
-//}
+#Preview {
+    ShapeView()
+}
