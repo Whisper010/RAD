@@ -37,7 +37,8 @@ struct ContentView: View {
             VStack{
                 
                 if arLogic.currentMode == .shape  {
-                    ShapeView()                            .transition(.move(edge: .bottom))
+                    ShapeView()                            
+                        .transition(.move(edge: .bottom))
                 }
                 if arLogic.currentMode == .draw {
                     DrawPanelView(selectedColor: arLogic.selectedColor)
