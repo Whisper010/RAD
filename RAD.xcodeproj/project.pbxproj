@@ -18,6 +18,7 @@
 		23848F6B2B7B73AD009FF40B /* RADUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */; };
 		69BB71F42B875936002320C3 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB71F32B875936002320C3 /* ShapeView.swift */; };
 		EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */; };
+		EC5812762B8C8F8F00CCBACC /* ImageUploadCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5812752B8C8F8F00CCBACC /* ImageUploadCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		69BB71F32B875936002320C3 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 		EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInterfaceView.swift; sourceTree = "<group>"; };
+		EC5812752B8C8F8F00CCBACC /* ImageUploadCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageUploadCollectionView.swift; path = ../../../../Downloads/ImageUploadCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */,
 				23848F4D2B7B73AC009FF40B /* RADApp.swift */,
 				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
+				EC5812752B8C8F8F00CCBACC /* ImageUploadCollectionView.swift */,
 				69BB71F32B875936002320C3 /* ShapeView.swift */,
 				232730C02B8751FC00F4DD00 /* ToolView.swift */,
 				232730BE2B874DA300F4DD00 /* DrawPanelView.swift */,
@@ -270,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69BB71F42B875936002320C3 /* ShapeView.swift in Sources */,
+				EC5812762B8C8F8F00CCBACC /* ImageUploadCollectionView.swift in Sources */,
 				232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */,
 				23848F502B7B73AC009FF40B /* ContentView.swift in Sources */,
 				EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */,
