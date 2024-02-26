@@ -43,6 +43,9 @@ struct ContentView: View {
                 if arLogic.currentMode == .draw {
                     DrawPanelView(selectedColor: arLogic.selectedColor)
                 }
+                if arLogic.currentMode == .camera {
+                    CameraInterfaceView()
+                }
                 
                 ToolView()
                     

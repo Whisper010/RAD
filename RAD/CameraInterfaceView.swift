@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CameraInterfaceView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(ARLogic.self) private var arLogic
     @State private var showingImageUploadView = false // State to manage presentation
     
     init() {
@@ -16,8 +17,8 @@ struct CameraInterfaceView: View {
         NavigationView {
             VStack {
                 ZStack {
-                    Color.black.opacity(0.3) // Simulate camera view with semi-transparent background
-                        .edgesIgnoringSafeArea(.all)
+                    /*Color.clear*/ // Simulate camera view with semi-transparent background
+//                        .edgesIgnoringSafeArea(.all)
                     VStack {
                         Spacer() // Pushes all content to the bottom
                         HStack {
@@ -59,19 +60,14 @@ struct CameraInterfaceView: View {
             .navigationBarTitle("Camera", displayMode: .inline) // Title with white text color
             .navigationBarItems(
                 leading: Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    arLogic.currentMode = .none
                 }) {
+                
                     Image(systemName: "chevron.left")
                         .foregroundColor(.white)
                         .imageScale(.large)
-                },
-                trailing: Button(action: {
-                    // Action for the button in the upper navigation bar
-                }) {
-                    Image(systemName: "arrowshape.turn.up.left")
-                        .foregroundColor(.white)
-                        .imageScale(.large)
                 }
+            
             )
             .navigationBarBackButtonHidden(true) // Hides the default back button
         }

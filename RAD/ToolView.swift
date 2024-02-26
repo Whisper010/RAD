@@ -35,6 +35,7 @@ struct ToolView: View{
             .padding()
            
             Button(action:{
+                arLogic.currentMode = .camera
                 print("DEBUG: Camera Mode activate")
             }){
                 Image(systemName: "camera")

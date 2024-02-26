@@ -6,7 +6,7 @@ struct CameraSecondView: View {
     var body: some View {
         ZStack {
             // Simulated camera viewfinder
-            Color.black.edgesIgnoringSafeArea(.all)
+//            Color.black.edgesIgnoringSafeArea(.all)
             
             // Layout for camera UI
             VStack {
