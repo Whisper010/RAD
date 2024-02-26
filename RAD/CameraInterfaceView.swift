@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CameraInterfaceView: View {
     @Environment(\.presentationMode) var presentationMode
+    @State private var showingImageUploadView = false // State to manage presentation
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -20,12 +21,18 @@ struct CameraInterfaceView: View {
                     VStack {
                         Spacer() // Pushes all content to the bottom
                         HStack {
-                            Button(action: {}) {
+                            Button(action: {
+                                // This button will now present the ImageUploadCollectionViewController
+                                showingImageUploadView = true
+                            }) {
                                 Image(systemName: "photo")
                                     .font(.largeTitle)
                                     .foregroundColor(.white)
                             }
                             .padding(.leading, 20) // Add padding to the leading button
+                            .sheet(isPresented: $showingImageUploadView) {
+                                ImageUploadCollectionViewController()
+                            }
 
                             Spacer()
 
@@ -59,7 +66,7 @@ struct CameraInterfaceView: View {
                         .imageScale(.large)
                 },
                 trailing: Button(action: {
-                    // Action for the back button in the upper navigation bar
+                    // Action for the button in the upper navigation bar
                 }) {
                     Image(systemName: "arrowshape.turn.up.left")
                         .foregroundColor(.white)
