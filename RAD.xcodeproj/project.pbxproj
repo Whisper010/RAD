@@ -17,6 +17,7 @@
 		23848F692B7B73AD009FF40B /* RADUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F682B7B73AD009FF40B /* RADUITests.swift */; };
 		23848F6B2B7B73AD009FF40B /* RADUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */; };
 		69BB71F42B875936002320C3 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB71F32B875936002320C3 /* ShapeView.swift */; };
+		EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		23848F682B7B73AD009FF40B /* RADUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITests.swift; sourceTree = "<group>"; };
 		23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		69BB71F32B875936002320C3 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
+		EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInterfaceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		23848F4C2B7B73AC009FF40B /* RAD */ = {
 			isa = PBXGroup;
 			children = (
+				EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */,
 				23848F4D2B7B73AC009FF40B /* RADApp.swift */,
 				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
 				69BB71F32B875936002320C3 /* ShapeView.swift */,
@@ -269,6 +272,7 @@
 				69BB71F42B875936002320C3 /* ShapeView.swift in Sources */,
 				232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */,
 				23848F502B7B73AC009FF40B /* ContentView.swift in Sources */,
+				EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */,
 				232730C12B8751FC00F4DD00 /* ToolView.swift in Sources */,
 				23848F4E2B7B73AC009FF40B /* RADApp.swift in Sources */,
 			);
