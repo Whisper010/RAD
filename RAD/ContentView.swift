@@ -46,9 +46,9 @@ struct ContentView: View {
                 if arLogic.currentMode == .camera {
                     CameraInterfaceView()
                 }
-                
-                ToolView()
-                    
+                if arLogic.currentMode != .camera {
+                    ToolView()
+                }
             }
             
         }

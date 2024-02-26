@@ -5,21 +5,32 @@ struct CameraInterfaceView: View {
     @Environment(ARLogic.self) private var arLogic
     @State private var showingImageUploadView = false // State to manage presentation
     
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundImage = UIImage(named: "NavigationBarBackground")
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        UINavigationBar.appearance().standardAppearance = appearance
-    }
+//    init() {
+//        // Make navigation bar transparent
+//           UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+//           UINavigationBar.appearance().shadowImage = UIImage()
+//           UINavigationBar.appearance().isTranslucent = true
+//           UINavigationBar.appearance().backgroundColor = .clear
+//    }
 
     var body: some View {
-        NavigationView {
             VStack {
                 ZStack {
                     /*Color.clear*/ // Simulate camera view with semi-transparent background
 //                        .edgesIgnoringSafeArea(.all)
                     VStack {
+                        HStack {
+                            Button(action: {
+                                arLogic.currentMode = .none
+                            }) {
+                                
+                                Image(systemName: "chevron.left")
+                                    .foregroundColor(.white)
+                                    .imageScale(.large)
+                            }
+                            .padding()
+                            Spacer()
+                        }
                         Spacer() // Pushes all content to the bottom
                         HStack {
                             Button(action: {
@@ -51,26 +62,14 @@ struct CameraInterfaceView: View {
                                     .foregroundColor(.white)
                             }
                             .padding(.trailing, 20) // Add padding to the trailing button
+                            .opacity(0)
                         }
                         .frame(height: 100)
-                        .background(Color.black.opacity(0.5)) // Simulated bottom bar
+                        .background(Color.clear) // Simulated bottom bar
                     }
                 }
             }
-            .navigationBarTitle("Camera", displayMode: .inline) // Title with white text color
-            .navigationBarItems(
-                leading: Button(action: {
-                    arLogic.currentMode = .none
-                }) {
-                
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                        .imageScale(.large)
-                }
             
-            )
-            .navigationBarBackButtonHidden(true) // Hides the default back button
-        }
     }
 }
 

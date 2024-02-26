@@ -12,14 +12,16 @@ struct DrawPanelView: View {
     
     @Environment(ARLogic.self) private var arLogic
     @State var selectedColor: Color = .blue
-
+    let adjustedFont: Font = .caption
     
     var body : some View{
+        
         HStack{
             Button(action:{}) {
                 VStack{
                     Image(systemName: "eraser")
                     Text("Eraser")
+                        .font(adjustedFont)
                 }
             }
             .buttonStyle(.plain)
@@ -28,6 +30,7 @@ struct DrawPanelView: View {
                 VStack{
                     Image(systemName: "paintbrush.pointed")
                     Text("Brushes")
+                        .font(adjustedFont)
                 }
             }
             .buttonStyle(.plain)
@@ -39,11 +42,12 @@ struct DrawPanelView: View {
                     .overlay{
                         ColorPicker("",selection: $selectedColor)
                             .labelsHidden()
-                            .frame(width: 16, height: 16)
-                            .clipShape(RoundedRectangle(cornerRadius: 2.0))
+                            .frame(width: 21, height: 21)
+                            .clipShape(Circle())
                     }
         
                 Text("Pallete")
+                    .font(adjustedFont)
             }
                 
             .padding()
@@ -51,6 +55,7 @@ struct DrawPanelView: View {
                 VStack{
                     Image(systemName: "eyedropper")
                     Text("Picker")
+                        .font(adjustedFont)
                 }
             }
             .buttonStyle(.plain)
@@ -59,15 +64,18 @@ struct DrawPanelView: View {
                 VStack{
                     Image(systemName: "rectangle.fill.on.rectangle.fill")
                     Text("Layers")
+                        .font(adjustedFont)
                 }
             }
             .buttonStyle(.plain)
             .padding()
         }
+        .padding([.top, .bottom], 12)
         .background(RoundedRectangle(cornerRadius: 10)
             .fill(.black)
             .opacity(0.5)
         )
+       
     }
 }
 
