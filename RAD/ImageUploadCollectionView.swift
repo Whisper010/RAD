@@ -1,12 +1,4 @@
-//
-//  ImageUploadCollectionView.swift
-//  RAD
-//
-//  Created by Ali Asgari on 26/02/24.
-//
-
 import SwiftUI
-
 
 struct ImageUploadCollectionViewController: View {
     @State private var images: [UIImage] = []
@@ -14,31 +6,41 @@ struct ImageUploadCollectionViewController: View {
     @State private var inputImage: UIImage?
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                ForEach(images, id: \.self) { img in
-                    Image(uiImage: img)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    ForEach(images, id: \.self) { img in
+                        Image(uiImage: img)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                    }
+                    Button(action: {
+                        self.showingImagePicker = true
+                    }) {
+                        Image(systemName: "plus")
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.black)
+                            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 1))
+                    }
                 }
-                Button(action: {
-                    self.showingImagePicker = true
-                }) {
-                    Image(systemName: "plus")
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.black)
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 1))
-                }
+                .padding()
             }
-            .padding()
+            .background(Color.white) // Set the background color to white
+            .navigationBarTitle("Upload Images")
+            .navigationBarItems(trailing: Button(action: {
+                // Add any actions you want to perform when the back button is pressed
+            }) {
+                Text("Back")
+            })
+            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                ImagePicker(image: self.$inputImage)
+            }
         }
-        .navigationBarTitle("Upload Images")
-        .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-            ImagePicker(image: self.$inputImage)
-        }
+        .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle to support day mode
+        .colorScheme(.light) // Set color scheme to light for day mode
     }
-    
+
     func loadImage() {
         guard let inputImage = inputImage else { return }
         images.append(inputImage)

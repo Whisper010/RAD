@@ -19,10 +19,10 @@ struct CameraInterfaceView: View {
                     /*Color.clear*/ // Simulate camera view with semi-transparent background
 //                        .edgesIgnoringSafeArea(.all)
                     VStack {
-                        HStack {
-                            Button(action: {
-                                arLogic.currentMode = .none
-                            }) {
+                           HStack {
+                               Button(action: {
+                                   arLogic.currentMode = .none
+                               }) {
                                 
                                 Image(systemName: "chevron.left")
                                     .foregroundColor(.white)
@@ -73,8 +73,10 @@ struct CameraInterfaceView: View {
     }
 }
 
-struct CameraInterfaceView_Previews: PreviewProvider {
-    static var previews: some View {
-        CameraInterfaceView()
-    }
-}
+//
+//struct CameraInterfaceView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CameraInterfaceView()
+//    }
+//}
+//
