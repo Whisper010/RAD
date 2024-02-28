@@ -56,13 +56,24 @@ struct CameraInterfaceView: View {
 
                             Spacer()
 
-                            Button(action: {}) {
-                                Image(systemName: "photo.on.rectangle.angled")
-                                    .font(.largeTitle)
+                            Button(action: {
+                                arLogic.currentMode = .none
+                            }) {
+                                
+                                Image(systemName: "chevron.left")
                                     .foregroundColor(.white)
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
                             }
-                            .padding(.trailing, 20) // Add padding to the trailing button
-                            .opacity(0)
+                            .padding()
+                            
+//                            Button(action: {}) {
+//                                Image(systemName: "photo.on.rectangle.angled")
+//                                    .font(.largeTitle)
+//                                    .foregroundColor(.white)
+//                            }
+//                            .padding(.trailing, 20) // Add padding to the trailing button
+//                            .opacity(0)
                         }
                         .frame(height: 100)
                         .background(Color.clear) // Simulated bottom bar

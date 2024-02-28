@@ -11,6 +11,8 @@ struct ToolView: View{
     
     @Environment(ARLogic.self) private var arLogic
     
+    let tapGesture = TapGesture()
+    
     var body: some View{
         HStack(spacing: 20){
             
@@ -18,34 +20,54 @@ struct ToolView: View{
                 arLogic.currentMode = .shape
                 print("DEBUG: Draw Mode activate")
             }){
-                Image(systemName: "rectangle.3.group")
-                
+                HStack{
+                    Image(systemName: "rectangle.3.group")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:50)
+                }
             }
-            .buttonStyle(.plain)
             .padding()
+            .buttonStyle(PlainButtonStyle())
             
             Button(action:{
                 arLogic.currentMode = .draw
                 print("DEBUG: Draw Mode activate")
                 
             }){
-                Image(systemName: "scribble.variable")
+                HStack{
+                    Image(systemName: "scribble.variable")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50)
+                }
             }
-            .buttonStyle(.plain)
+            
             .padding()
+            .buttonStyle(PlainButtonStyle())
+            
            
             Button(action:{
                 arLogic.currentMode = .camera
                 print("DEBUG: Camera Mode activate")
             }){
-                Image(systemName: "camera")
+                HStack{
+                    Image(systemName: "camera")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50)
+                }
+                
             }
-            .buttonStyle(.plain)
+            
             .padding()
+            .buttonStyle(PlainButtonStyle())
+            
             
             
         }
     }
+        
     
 }
 

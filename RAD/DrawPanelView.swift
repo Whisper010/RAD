@@ -60,15 +60,15 @@ struct DrawPanelView: View {
             }
             .buttonStyle(.plain)
             .padding()
-            Button(action:{}) {
-                VStack{
-                    Image(systemName: "rectangle.fill.on.rectangle.fill")
-                    Text("Layers")
-                        .font(adjustedFont)
-                }
-            }
-            .buttonStyle(.plain)
-            .padding()
+//            Button(action:{}) {
+//                VStack{
+//                    Image(systemName: "rectangle.fill.on.rectangle.fill")
+//                    Text("Layers")
+//                        .font(adjustedFont)
+//                }
+//            }
+//            .buttonStyle(.plain)
+//            .padding()
         }
         .padding([.top, .bottom], 12)
         .background(RoundedRectangle(cornerRadius: 10)
