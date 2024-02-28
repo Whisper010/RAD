@@ -11,12 +11,17 @@ struct ShapeView: View {
     
     @Environment(ARLogic.self) private var arLogic
     
+    var shapes = ViewModel().shapes
+    
     var body: some View {
-//        ScrollView(.horizontal, showsIndicators: false) {
+        ZStack {
             HStack() {
-                ForEach(["Shape0", "Shape1", "Shape2"], id: \.self) { shape in
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                        Image(shape)
+                ForEach(shapes) { shape in
+                    Button(action: {
+                        let model = Model(modelName: shape.modelName)
+                        arLogic.modelSelected = model
+                    }) {
+                        Image(shape.modelName)
                             .resizable()
                             .frame(width: 30,height: 30)
                             .clipShape(RoundedRectangle(cornerRadius: 5.0).size(width: 30, height: 30))
@@ -31,7 +36,7 @@ struct ShapeView: View {
                     .fill(.black)
                     .opacity(0.5))
             
-//        }
+        }
     }
     
 }
