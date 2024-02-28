@@ -15,24 +15,36 @@ struct CameraInterfaceView: View {
 
     var body: some View {
             VStack {
-                ZStack {
+                ZStack (alignment: .bottom) {
                     /*Color.clear*/ // Simulate camera view with semi-transparent background
 //                        .edgesIgnoringSafeArea(.all)
                     VStack {
-                           HStack {
-                               Button(action: {
-                                   arLogic.currentMode = .none
-                               }) {
+                                                  
+                        HStack( spacing: 20) {
+                            
+                            
+                            Button(action: {
+                                arLogic.currentMode = .none
+                            }) {
                                 
                                 Image(systemName: "chevron.left")
                                     .foregroundColor(.white)
+                                    .font(.system(size: 30))
                                     .imageScale(.large)
                             }
                             .padding()
-                            Spacer()
-                        }
-                        Spacer() // Pushes all content to the bottom
-                        HStack {
+                            
+                           
+
+                            
+
+                            Button(action: {}) {
+                                Image(systemName: "camera.circle")
+                                    .font(.system(size: 70))
+                                    .foregroundColor(.white)
+                            }
+
+                         
                             Button(action: {
                                 // This button will now present the ImageUploadCollectionViewController
                                 showingImageUploadView = true
@@ -45,28 +57,7 @@ struct CameraInterfaceView: View {
                             .sheet(isPresented: $showingImageUploadView) {
                                 ImageUploadCollectionViewController()
                             }
-
-                            Spacer()
-
-                            Button(action: {}) {
-                                Image(systemName: "camera.circle")
-                                    .font(.system(size: 70))
-                                    .foregroundColor(.white)
-                            }
-
-                            Spacer()
-
-                            Button(action: {
-                                arLogic.currentMode = .none
-                            }) {
-                                
-                                Image(systemName: "chevron.left")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 30))
-                                    .imageScale(.large)
-                            }
-                            .padding()
-                            
+                       
 //                            Button(action: {}) {
 //                                Image(systemName: "photo.on.rectangle.angled")
 //                                    .font(.largeTitle)
