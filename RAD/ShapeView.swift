@@ -18,7 +18,7 @@ struct ShapeView: View {
             HStack() {
                 ForEach(shapes) { shape in
                     Button(action: {
-                        let model = Model(modelName: shape.modelName)
+                        let model = Model(modelName: shape.modelName, shapeType: shape.shapeType)
                         arLogic.modelSelected = model
                     }) {
                         Image(shape.modelName)

@@ -92,8 +92,17 @@ struct ARViewContainer: UIViewRepresentable {
         config.planeDetection = [.horizontal, .vertical]
         config.environmentTexturing = .automatic
         
+        // Enable people occlusion if available
+        if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
+            config.frameSemantics.insert(.personSegmentationWithDepth)
+        } else if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentation) {
+            config.frameSemantics.insert(.personSegmentation)
+        }
+        
         if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
             config.sceneReconstruction = .mesh
+            // Enable automatic occlusion of virtual content by the mesh
+//            arView.environment.sceneUnderstanding.options.insert(.occlusion)
         }
         
         
