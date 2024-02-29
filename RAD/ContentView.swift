@@ -106,8 +106,8 @@ struct ARViewContainer: UIViewRepresentable {
         }
         
         
-        
-        arView.enableObjectRemoval()
+        arView.enableModeActive()
+//        arView.enableObjectRemoval()
         
         arView.session.run(config)
         
@@ -145,9 +145,15 @@ struct ARViewContainer: UIViewRepresentable {
 
 
 extension ARView {
+    
     func enableObjectRemoval(){
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer: )))
         self.addGestureRecognizer(longPressGestureRecognizer)
+    }
+    
+    func enableModeActive(){
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer: )))
+        self.addGestureRecognizer(panGestureRecognizer)
     }
     
     @objc func handleLongPress(recognizer: UILongPressGestureRecognizer){
@@ -163,6 +169,58 @@ extension ARView {
             }
         }
     }
+    
+    @objc func handlePan(recognizer: UIPanGestureRecognizer){
+        guard let arView = recognizer.view as? ARView else {return}
+        
+        
+        
+        switch recognizer.state {
+        case .began,.changed:
+            let location = recognizer.location(in: self)
+            // Convert the 2D touch location to a 3D location in AR space
+            if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .existingPlaneInfinite, alignment: .any){
+                // Perform the raycast
+                let results = arView.session.raycast(raycastQuery)
+                
+                if let firstResult = results.first{
+                    // Get the 3D coordinates from the first result
+                    let matrix = firstResult.worldTransform
+                    let position = SIMD3<Float>(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z)
+                    
+                    
+                    // Create or update a ModelEntity at this position
+                        let modelEntity = createModelEntity(at: position)
+                        arView.scene.addAnchor(modelEntity)
+                }
+            }
+        
+        default:
+            break
+        }
+    
+    }
+}
+
+func createModelEntity(at position: SIMD3<Float>) -> AnchorEntity {
+    // Generate a sphere mesh with a specified radius.
+       let mesh = MeshResource.generateSphere(radius: 0.005)
+       
+       // Create a simple material for the sphere.
+       let material = SimpleMaterial(color: .blue, isMetallic: true)
+       
+       // Create the model entity with the mesh and the material.
+       let modelEntity = ModelEntity(mesh: mesh, materials: [material])
+       
+       // Create an anchor entity at the given world position.
+       let anchorEntity = AnchorEntity(world: position)
+       
+       // Add the model entity to the anchor entity.
+       anchorEntity.addChild(modelEntity)
+       // Optionally, give the anchor a name for later reference.
+       anchorEntity.name = "droplet"
+    
+    return anchorEntity
 }
 
 struct ContentView_Previews: PreviewProvider {

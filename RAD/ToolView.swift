@@ -11,24 +11,32 @@ struct ToolView: View{
     
     @Environment(ARLogic.self) private var arLogic
     
+    
     let tapGesture = TapGesture()
     
     var body: some View{
-        HStack(spacing: 20){
+        HStack(spacing: 45){
             
             Button(action:{
                 arLogic.currentMode = .shape
                 print("DEBUG: Draw Mode activate")
+                
             }){
                 HStack{
                     Image(systemName: "rectangle.3.group")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width:50)
+                        .imageScale(.small)
+                        .frame(width: 20, height: 20)
+                        .padding()
+                    
                 }
-            }
-            .padding()
-            .buttonStyle(PlainButtonStyle())
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                
+            }.buttonStyle(PlainButtonStyle())
+            
+           
             
             Button(action:{
                 arLogic.currentMode = .draw
@@ -39,11 +47,17 @@ struct ToolView: View{
                     Image(systemName: "scribble.variable")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 50)
+                        .imageScale(.small)
+                        .frame(width: 20, height: 20)
+                        .padding()
+                        
                 }
+                    .background(.ultraThinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+               
             }
             
-            .padding()
+            
             .buttonStyle(PlainButtonStyle())
             
            
@@ -55,17 +69,19 @@ struct ToolView: View{
                     Image(systemName: "camera")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 50)
+                        .imageScale(.small)
+                        .frame(width: 20, height: 20)
+                        .padding()
                 }
-                
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            
-            .padding()
             .buttonStyle(PlainButtonStyle())
             
             
             
         }
+       
     }
         
     
