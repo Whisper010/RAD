@@ -27,9 +27,19 @@ struct DrawPanelView: View {
                 }
             }) {
                 VStack{
-                    Image(systemName: "eraser")
+                    HStack{
+                        Image(systemName: "eraser")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .imageScale(.small)
+                            .frame(width: 20, height: 20)
+                            .padding()
+                    }
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
                     Text("Eraser")
                         .font(adjustedFont)
+                        
                 }
             }
             .buttonStyle(.plain)
@@ -44,38 +54,70 @@ struct DrawPanelView: View {
                 }
             }) {
                 VStack{
-                    Image(systemName: "paintbrush.pointed")
+                    HStack{
+                        Image(systemName: "paintbrush.pointed")
+                            .resizable()
+                            .font(adjustedFont)
+                            .aspectRatio(contentMode: .fit)
+                            .imageScale(.small)
+                            .frame(width: 20, height: 20)
+                            .padding()
+                    }
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
                     Text("Brushes")
                         .font(adjustedFont)
+                    
                 }
             }
             .buttonStyle(.plain)
-            .padding()
+            .padding(.horizontal)
             
             VStack{
+                HStack{
                 Image(systemName: "paintbrush.pointed")
-                    .opacity(0)
-                    .overlay{
-                        ColorPicker("",selection: $selectedColor)
-                            .labelsHidden()
-                            .frame(width: 21, height: 21)
-                            .clipShape(Circle())
-                    }
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .imageScale(.small)
+                        .frame(width: 20, height: 20)
+                        .padding()
+                        .opacity(0)
+                        .overlay{
+                            ColorPicker("",selection: $selectedColor)
+                                .labelsHidden()
+                                .imageScale(.large)
+                                .frame(width: 25, height: 25)
+                                .clipShape(Circle())
+                        }
+                }.background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                
         
                 Text("Pallete")
                     .font(adjustedFont)
             }
                 
-            .padding()
+            .padding(.horizontal)
             Button(action:{}) {
                 VStack{
-                    Image(systemName: "eyedropper")
+                    HStack{
+                        Image(systemName: "eyedropper")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .imageScale(.small)
+                            .frame(width: 20, height: 20)
+                            .padding()
+                    }
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                    
                     Text("Picker")
                         .font(adjustedFont)
                 }
+                
             }
             .buttonStyle(.plain)
-            .padding()
+            .padding(.horizontal)
 //            Button(action:{}) {
 //                VStack{
 //                    Image(systemName: "rectangle.fill.on.rectangle.fill")
