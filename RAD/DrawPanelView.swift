@@ -17,7 +17,15 @@ struct DrawPanelView: View {
     var body : some View{
         
         HStack{
-            Button(action:{}) {
+            Button(action:{
+                if arLogic.currentActiveMode != .erasing {
+                    arLogic.currentActiveMode = .erasing
+                    print("DEBUG: Erasing Mode Active")
+                } else {
+                    arLogic.currentActiveMode = .none
+                    print("DEBUG: Erasing Mode Inactive")
+                }
+            }) {
                 VStack{
                     Image(systemName: "eraser")
                     Text("Eraser")
@@ -26,7 +34,15 @@ struct DrawPanelView: View {
             }
             .buttonStyle(.plain)
             .padding(.horizontal)
-            Button(action:{}) {
+            Button(action:{
+                if arLogic.currentActiveMode != .drawing {
+                    arLogic.currentActiveMode = .drawing
+                    print("DEBUG: Drawing Mode Active")
+                } else {
+                    arLogic.currentActiveMode = .none
+                    print("DEBUG: Drawing Mode Inactive")
+                }
+            }) {
                 VStack{
                     Image(systemName: "paintbrush.pointed")
                     Text("Brushes")

@@ -23,7 +23,7 @@ struct CameraInterfaceView: View {
                             
                             
                             Button(action: {
-                                arLogic.currentMode = .none
+                                arLogic.currentSelectedTool = .none
                             }) {
                                 HStack{
                                     Image(systemName: "chevron.left")

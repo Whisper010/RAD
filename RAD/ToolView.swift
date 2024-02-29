@@ -18,8 +18,8 @@ struct ToolView: View{
         HStack(spacing: 45){
             
             Button(action:{
-                arLogic.currentMode = .shape
-                print("DEBUG: Draw Mode activate")
+                arLogic.currentSelectedTool = .shape
+                print("DEBUG: Selected Shape Tool")
                 
             }){
                 HStack{
@@ -39,8 +39,8 @@ struct ToolView: View{
            
             
             Button(action:{
-                arLogic.currentMode = .draw
-                print("DEBUG: Draw Mode activate")
+                arLogic.currentSelectedTool = .brush
+                print("DEBUG: Selected Brush Tool")
                 
             }){
                 HStack{
@@ -62,8 +62,8 @@ struct ToolView: View{
             
            
             Button(action:{
-                arLogic.currentMode = .camera
-                print("DEBUG: Camera Mode activate")
+                arLogic.currentSelectedTool = .camera
+                print("DEBUG: Selected Camera Tool")
             }){
                 HStack{
                     Image(systemName: "camera")

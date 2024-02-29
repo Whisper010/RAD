@@ -10,19 +10,29 @@ import RealityKit
 import ARKit
 import UIKit
 
-enum Mode{
+enum Tool{
     case shape
-    case draw
+    case brush
     case camera
     case none
     
 }
 
+enum Mode {
+    case drawing
+    case erasing
+    case none
+}
+
 @Observable
 class ARLogic {
-    var currentMode: Mode = .none
+    
+    
+    var currentSelectedTool: Tool = .none
+    var currentActiveMode: Mode = .none
     var selectedColor: Color = .black
     var modelSelected: Model?
+    
     
     var isModifying: Bool = false
     
@@ -42,9 +52,7 @@ struct ContentView: View {
             
             
             OverlayView()
-                
-            
-            
+
         }
         
     }
@@ -56,17 +64,17 @@ struct OverlayView: View {
     
     var body: some View {
         VStack{
-            if arLogic.currentMode == .shape  {
+            if arLogic.currentSelectedTool == .shape  {
                 ShapeView()
                     .transition(.move(edge: .bottom))
             }
-            if arLogic.currentMode == .draw {
+            if arLogic.currentSelectedTool == .brush {
                 DrawPanelView(selectedColor: arLogic.selectedColor)
             }
-            if arLogic.currentMode == .camera {
+            if arLogic.currentSelectedTool == .camera {
                 CameraInterfaceView()
             }
-            if arLogic.currentMode != .camera {
+            if arLogic.currentSelectedTool != .camera {
                 ToolView()
                 
             }
@@ -84,9 +92,16 @@ struct ARViewContainer: UIViewRepresentable {
     
     
     
+    func makeCoordinator() -> Coordinator {
+            Coordinator()
+    }
+    
     func makeUIView(context: Context) -> ARView {
         
         let arView = ARView(frame: .zero)
+        
+        context.coordinator.arView = arView
+        context.coordinator.configureGestureRecognizer()
         
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = [.horizontal, .vertical]
@@ -106,9 +121,6 @@ struct ARViewContainer: UIViewRepresentable {
         }
         
         
-        arView.enableModeActive()
-//        arView.enableObjectRemoval()
-        
         arView.session.run(config)
         
         
@@ -120,6 +132,22 @@ struct ARViewContainer: UIViewRepresentable {
     
     func updateUIView(_ uiView: ARView, context: Context) {
     
+        
+        
+        switch arLogic.currentActiveMode {
+            case .drawing where context.coordinator.drawState != .drawing:
+                context.coordinator.drawState = .drawing
+                context.coordinator.enableDrawingMode()
+            case .erasing where context.coordinator.drawState != .erasing:
+                context.coordinator.drawState = .erasing
+                context.coordinator.enableDrawingMode()
+            case .none:
+                context.coordinator.drawState = .none
+                context.coordinator.disableDrawingMode()
+            default:
+                break
+            }
+
       
         
         // Update the AR view if needed
@@ -142,63 +170,94 @@ struct ARViewContainer: UIViewRepresentable {
     }
 }
 
-
-
-extension ARView {
-    
-    func enableObjectRemoval(){
-        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer: )))
-        self.addGestureRecognizer(longPressGestureRecognizer)
-    }
-    
-    func enableModeActive(){
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer: )))
-        self.addGestureRecognizer(panGestureRecognizer)
-    }
-    
-    @objc func handleLongPress(recognizer: UILongPressGestureRecognizer){
-//        if recognizer.state != .began {
-//            return // Ensure that the code runs only once at the beginning of the long press
-//        }
+extension ARViewContainer {
+    class Coordinator: NSObject {
+        var arView: ARView?
+        var longPressGestureRecognizer: UILongPressGestureRecognizer?
+        var panGestureRecognizer: UIPanGestureRecognizer?
+        var drawState: Mode = .none
         
-        let location = recognizer.location(in: self)
-        if let entity = self.entity(at: location) {
-            if let anchorEntity = entity.anchor, anchorEntity.name == "Anchor"{
-                anchorEntity.removeFromParent()
-                print("Removed anchor with name: " + anchorEntity.name)
+        
+        override init(){
+            super.init()
+        }
+        
+        func configureGestureRecognizer(){
+            // Initialize the pan gesture recognizer for drawing mode
+            longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer:)))
+            panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
+            
+            // Assuming the gestures are not exclusive and can coexist.
+            if let arView = arView, let longPressGesture = longPressGestureRecognizer{
+                arView.addGestureRecognizer(longPressGesture)
+                
             }
         }
-    }
-    
-    @objc func handlePan(recognizer: UIPanGestureRecognizer){
-        guard let arView = recognizer.view as? ARView else {return}
         
-        
-        
-        switch recognizer.state {
-        case .began,.changed:
-            let location = recognizer.location(in: self)
-            // Convert the 2D touch location to a 3D location in AR space
-            if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .existingPlaneInfinite, alignment: .any){
-                // Perform the raycast
-                let results = arView.session.raycast(raycastQuery)
-                
-                if let firstResult = results.first{
-                    // Get the 3D coordinates from the first result
-                    let matrix = firstResult.worldTransform
-                    let position = SIMD3<Float>(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z)
-                    
-                    
-                    // Create or update a ModelEntity at this position
-                        let modelEntity = createModelEntity(at: position)
-                        arView.scene.addAnchor(modelEntity)
+        @objc func handleLongPress(recognizer: UILongPressGestureRecognizer) {
+            guard let arView = arView else { return }
+            let location = recognizer.location(in: arView)
+            if let entity = arView.entity(at: location) {
+                if let anchorEntity = entity.anchor, anchorEntity.name == "Anchor" {
+                    anchorEntity.removeFromParent()
+                    print("Removed anchor with name: " + anchorEntity.name)
                 }
             }
-        
-        default:
-            break
         }
-    
+        
+        @objc func handlePan(recognizer: UIPanGestureRecognizer) {
+            guard let arView = arView else { return }
+            let location = recognizer.location(in: arView)
+            
+            
+            switch drawState {
+            case .drawing:
+                switch recognizer.state {
+                case .began, .changed:
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                        let results = arView.session.raycast(raycastQuery)
+                        if let firstResult = results.first {
+                            let matrix = firstResult.worldTransform
+                            let position = SIMD3<Float>(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z)
+                            let modelEntity = createModelEntity(at: position)
+                            arView.scene.addAnchor(modelEntity)
+                        }
+                    }
+                default:
+                    break
+                }
+                
+            case .erasing:
+                // Implement eraser logic here
+                switch recognizer.state {
+                case .began, .changed:
+                    
+                    if let entity = arView.entity(at: location), let anchorEntity = entity.anchor, anchorEntity.name == "droplet" {
+                        anchorEntity.removeFromParent()
+                    }
+                    
+                default:
+                    break
+                }
+            default:
+                break
+            }
+            
+           
+        }
+        
+        func enableDrawingMode() {
+            if let arView = self.arView, let panGesture = panGestureRecognizer {
+                arView.addGestureRecognizer(panGesture)
+            }
+        }
+        func disableDrawingMode() {
+            if let arView = self.arView, let panGesture = panGestureRecognizer {
+                arView.removeGestureRecognizer(panGesture)
+            }
+        }
+        
+        
     }
 }
 
@@ -215,10 +274,12 @@ func createModelEntity(at position: SIMD3<Float>) -> AnchorEntity {
        // Create an anchor entity at the given world position.
        let anchorEntity = AnchorEntity(world: position)
        
+        // Optionally, give the anchor a name for later reference.
+        anchorEntity.name = "droplet"
+    
        // Add the model entity to the anchor entity.
        anchorEntity.addChild(modelEntity)
-       // Optionally, give the anchor a name for later reference.
-       anchorEntity.name = "droplet"
+      
     
     return anchorEntity
 }
