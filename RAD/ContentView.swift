@@ -9,6 +9,7 @@ import SwiftUI
 import RealityKit
 import ARKit
 import UIKit
+import Combine
 
 enum Tool{
     case shape
@@ -106,23 +107,28 @@ struct ARViewContainer: UIViewRepresentable {
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = [.horizontal, .vertical]
         config.environmentTexturing = .automatic
-        
+          
         // Enable people occlusion if available
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             config.frameSemantics.insert(.personSegmentationWithDepth)
         } else if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentation) {
             config.frameSemantics.insert(.personSegmentation)
         }
+         
         
         if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
+            
             config.sceneReconstruction = .mesh
-            // Enable automatic occlusion of virtual content by the mesh
+//            
+//            // Enable automatic occlusion of virtual content by the mesh
 //            arView.environment.sceneUnderstanding.options.insert(.occlusion)
         }
         
         
         arView.session.run(config)
         
+        // Subscribe for Event update every frame
+        context.coordinator.setupSubscriptions()
         
         return arView
     }
@@ -137,24 +143,25 @@ struct ARViewContainer: UIViewRepresentable {
         switch arLogic.currentActiveMode {
             case .drawing where context.coordinator.drawState != .drawing:
                 context.coordinator.drawState = .drawing
-                context.coordinator.enableDrawingMode()
             case .erasing where context.coordinator.drawState != .erasing:
                 context.coordinator.drawState = .erasing
-                context.coordinator.enableDrawingMode()
             case .none:
                 context.coordinator.drawState = .none
-                context.coordinator.disableDrawingMode()
             default:
                 break
             }
+        
+        if UIColor(arLogic.selectedColor) != context.coordinator.selectedColor{
+            context.coordinator.selectedColor = UIColor(arLogic.selectedColor)
+        }
 
       
         
-        // Update the AR view if needed
+        // Update the AR view
         if let model = arLogic.modelSelected {
             print("DEBUG: adding model to scene - \(model.modelName)")
             let anchorEntity = AnchorEntity(plane: .any)
-            anchorEntity.name = "Anchor"
+            anchorEntity.name = "Shape"
             
             if let modelEntity = model.modelEntity {
                 anchorEntity.addChild(modelEntity)
@@ -176,31 +183,53 @@ extension ARViewContainer {
         var longPressGestureRecognizer: UILongPressGestureRecognizer?
         var panGestureRecognizer: UIPanGestureRecognizer?
         var drawState: Mode = .none
+        var selectedColor: UIColor = .black
+        
+        var cancellables = Set<AnyCancellable>()
+        var drawingEnteties: [DrawingEntity] = []
         
         
         override init(){
             super.init()
         }
         
+        func setupSubscriptions() {
+            guard let arView = arView else {return}
+            
+            arView.scene.publisher(for: SceneEvents.Update.self).sink{ [weak self] _ in
+                self?.handleSceneUpdate()
+            }
+            .store(in: &cancellables)
+        }
+        
+        private func handleSceneUpdate() {
+            
+        }
+        
+        
         func configureGestureRecognizer(){
             // Initialize the pan gesture recognizer for drawing mode
             longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer:)))
             panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
             
-            // Assuming the gestures are not exclusive and can coexist.
-            if let arView = arView, let longPressGesture = longPressGestureRecognizer{
+            
+            if let arView = arView,
+                let longPressGesture = longPressGestureRecognizer,
+                let panGesture = panGestureRecognizer {
                 arView.addGestureRecognizer(longPressGesture)
-                
+                arView.addGestureRecognizer(panGesture)
             }
+            
         }
         
         @objc func handleLongPress(recognizer: UILongPressGestureRecognizer) {
             guard let arView = arView else { return }
             let location = recognizer.location(in: arView)
+            
             if let entity = arView.entity(at: location) {
-                if let anchorEntity = entity.anchor, anchorEntity.name == "Anchor" {
+                if let anchorEntity = entity.anchor, anchorEntity.name == "Shape" {
                     anchorEntity.removeFromParent()
-                    print("Removed anchor with name: " + anchorEntity.name)
+                    
                 }
             }
         }
@@ -212,15 +241,22 @@ extension ARViewContainer {
             
             switch drawState {
             case .drawing:
+                // Drawing logic
                 switch recognizer.state {
                 case .began, .changed:
                     if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
                         let results = arView.session.raycast(raycastQuery)
                         if let firstResult = results.first {
+                            
                             let matrix = firstResult.worldTransform
-                            let position = SIMD3<Float>(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z)
-                            let modelEntity = createModelEntity(at: position)
-                            arView.scene.addAnchor(modelEntity)
+                            let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
+                            
+                            let anchorWithChild = createModelEntity(at: position, color: selectedColor)
+                            
+                            arView.scene.addAnchor(anchorWithChild)
+                            
+                            drawingEnteties.append(DrawingEntity(anchor: anchorWithChild, worldPosition: position))
+                            
                         }
                     }
                 default:
@@ -228,16 +264,24 @@ extension ARViewContainer {
                 }
                 
             case .erasing:
-                // Implement eraser logic here
-                switch recognizer.state {
-                case .began, .changed:
+//                 Eraser logic
+                if recognizer.state == .began || recognizer.state == .changed {
                     
-                    if let entity = arView.entity(at: location), let anchorEntity = entity.anchor, anchorEntity.name == "droplet" {
-                        anchorEntity.removeFromParent()
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                        let results = arView.session.raycast(raycastQuery)
+                        if let firstResult = results.first {
+                            
+                            let matrix = firstResult.worldTransform
+                            let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
+                            
+                            
+                            
+                            for entityToErase in findEntitiesToErase(near: position, withRadius: 0.05, in: drawingEnteties) {
+                                entityToErase.removeFromParent()
+                                
+                            }
+                        }
                     }
-                    
-                default:
-                    break
                 }
             default:
                 break
@@ -246,43 +290,94 @@ extension ARViewContainer {
            
         }
         
-        func enableDrawingMode() {
-            if let arView = self.arView, let panGesture = panGestureRecognizer {
-                arView.addGestureRecognizer(panGesture)
-            }
-        }
-        func disableDrawingMode() {
-            if let arView = self.arView, let panGesture = panGestureRecognizer {
-                arView.removeGestureRecognizer(panGesture)
-            }
-        }
-        
-        
     }
 }
 
-func createModelEntity(at position: SIMD3<Float>) -> AnchorEntity {
-    // Generate a sphere mesh with a specified radius.
+class DrawingEntity {
+    var anchor: AnchorEntity
+    var worldPosition: SIMD3<Float>
+    init(anchor: AnchorEntity, worldPosition: SIMD3<Float>) {
+        self.anchor = anchor
+        self.worldPosition = worldPosition
+    }
+}
+
+
+
+
+func createModelEntity(at position: SIMD3<Float>, color: UIColor) -> AnchorEntity {
+    @Environment(ARLogic.self) var arLogic
+    
        let mesh = MeshResource.generateSphere(radius: 0.005)
        
-       // Create a simple material for the sphere.
-       let material = SimpleMaterial(color: .blue, isMetallic: true)
+        let material = SimpleMaterial(color: color, roughness: 0.5, isMetallic: true)
        
-       // Create the model entity with the mesh and the material.
        let modelEntity = ModelEntity(mesh: mesh, materials: [material])
        
        // Create an anchor entity at the given world position.
-       let anchorEntity = AnchorEntity(world: position)
+        let anchorEntity = AnchorEntity(world: position)
+    
+        
        
-        // Optionally, give the anchor a name for later reference.
-        anchorEntity.name = "droplet"
+        anchorEntity.name = "Droplet"
     
        // Add the model entity to the anchor entity.
        anchorEntity.addChild(modelEntity)
+    
       
     
     return anchorEntity
 }
+
+func findEntitiesToErase(near centerPosition: SIMD3<Float>, withRadius radius: Float, in drawingEntities: [DrawingEntity]) ->  [AnchorEntity] {
+    
+        var entitiesToErase = [AnchorEntity]()
+
+
+        // Filter only the anchors with the name "Droplet"
+    let entities = drawingEntities.filter{$0.anchor.name == "Droplet"}
+    
+
+        for entity in entities  {
+            // Check if the anchor is within the defined radius
+            let distance: Float = simd_distance(entity.worldPosition,centerPosition)
+            
+            if distance <= radius {
+                entitiesToErase.append(entity.anchor)
+            }
+        }
+
+        return entitiesToErase
+}
+
+//struct BeamParameters {
+//    var startPosition: SIMD3<Float>
+//    var endPosition: SIMD3<Float>
+//    var radius: Float
+//}
+
+//func createBeam(_ beamParams: BeamParameters, in arView: ARView) -> ModelEntity{
+//    let beamLength = simd_distance(beamParams.startPosition, beamParams.endPosition)
+//    let cylinder = MeshResource.generateCylinder(radius: beamParams.endPosition,
+//                                                 height: beamLength,
+//                                                 radialSegment:30,
+//                                                 verticalSegments:1,
+//                                                 inwardNormals: false)
+//    let material = SimpleMaterial(color: .blue, isMetallic: false)
+//    let beamModel = ModelEntity(mesh: cylinder, materials: [material])
+//
+//    // Check if the beam model already exists in the scene and update it
+//        if let existingBeam = arView.scene.findEntity(named: "DebugBeam") as? ModelEntity {
+//            existingBeam.position = beamModel.position
+//            existingBeam.orientation = beamModel.orientation
+//            existingBeam.scale = beamModel.scale
+//            return existingBeam
+//        } else {
+//            beamModel.name = "DebugBeam"
+//            return beamModel
+//        }
+//}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
