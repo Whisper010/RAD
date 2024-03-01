@@ -60,7 +60,7 @@ struct ShapeFactory {
                     SIMD3<Float>(halfSize, -halfSize, 0),  // Bottom-right
                     SIMD3<Float>(-halfSize, -halfSize, 0)  // Bottom-left
                 ]
-                return makeBorder(for: innerVertices, withSize: borderSize)
+        return makeBorder(for: innerVertices, withSize: borderSize)
     }
 
     // Implement methods for creating triangles and lines if needed
@@ -105,6 +105,31 @@ struct ShapeFactory {
         let outerVertices = innerVertices.map { SIMD3<Float>($0.x * scale, $0.y * scale, $0.z) }
         return outerVertices + innerVertices
     }
+    
+    static func createCylinderVerticies( radius: Float, height: Float, radialSegments: Int) -> [SIMD3<Float>] {
+        var vertices: [SIMD3<Float>] = []
+        
+        
+        // Create top circle vertices
+        let topVertices = createCircleVertices(radius: radius, segments: radialSegments)
+        for vertex in topVertices {
+            vertices.append(SIMD3<Float>(vertex.x, vertex.y + height / 2, vertex.z))
+        }
+        
+        // Create bottom circle vertices
+        let bottomVertices = createCircleVertices(radius: radius, segments: radialSegments)
+       
+        for vertex in bottomVertices {
+            vertices.append(SIMD3<Float>(vertex.x, vertex.y - height / 2, vertex.z))
+        }
+        
+        
+        
+        return vertices
+    }
+    
+         
+    
 }
 
 // The Model struct now initializes with a ShapeType

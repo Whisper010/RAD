@@ -133,6 +133,9 @@ struct DrawPanelView: View {
             .fill(.black)
             .opacity(0.5)
         )
+        .onChange(of: selectedColor) {
+            arLogic.selectedColor = selectedColor
+        }
        
     }
 }
