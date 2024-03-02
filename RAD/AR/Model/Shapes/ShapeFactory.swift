@@ -1,39 +1,17 @@
 //
-//  Model.swift
+//  ShapeFactory.swift
 //  RAD
 //
-//  Created by Linar Zinatullin on 27/02/24.
+//  Created by Linar Zinatullin on 02/03/24.
 //
 
-import UIKit
 import RealityKit
-import Combine
-import ARKit
-import simd
+import SwiftUI
 
-
-// Define the shape types with associated factory methods
-enum ShapeType {
-    case circle
-    case square
-    case triangle
-    case line
-
-    func createModelEntity() -> ModelEntity {
-        switch self {
-        case .circle:
-            return ShapeFactory.createModelEntity(vertices: ShapeFactory.createCircleVertices(radius: 0.02, segments: 36))
-        case .square:
-            return ShapeFactory.createModelEntity(vertices: ShapeFactory.createSquareVertices(size: 0.2))
-        // Implement model entity creation for triangle and line if needed
-        default:
-            fatalError("Shape not implemented")
-        }
-    }
-}
 
 // ShapeFactory class to encapsulate the shape creation logic
 struct ShapeFactory {
+    
     static let borderSize: Float = 10
     static let angleInDegrees: Float = -90
     static let angleInRadians: Float = angleInDegrees * (Float.pi / 180)
@@ -63,8 +41,6 @@ struct ShapeFactory {
         return makeBorder(for: innerVertices, withSize: borderSize)
     }
 
-    // Implement methods for creating triangles and lines if needed
-
     static func createModelEntity(vertices: [SIMD3<Float>]) -> ModelEntity {
         let indices: [UInt32] = calculateIndices(vertices: vertices)
         var meshDescriptor = MeshDescriptor()
@@ -82,7 +58,7 @@ struct ShapeFactory {
 
     // Helper function to calculate indices
     static func calculateIndices(vertices: [SIMD3<Float>]) -> [UInt32] {
-        // Implement index calculation logic
+        // Index calculation logic
         var calculatedIndices:[UInt32] = []
         let range: UInt32 = UInt32(vertices.count / 2)
               
@@ -100,7 +76,7 @@ struct ShapeFactory {
 
     // Helper function to create a border for shapes
     static func makeBorder(for innerVertices: [SIMD3<Float>], withSize size: Float) -> [SIMD3<Float>] {
-        // Implement border creation logic
+        // Border creation logic
         let scale = 1 + size / 100
         let outerVertices = innerVertices.map { SIMD3<Float>($0.x * scale, $0.y * scale, $0.z) }
         return outerVertices + innerVertices
@@ -131,35 +107,3 @@ struct ShapeFactory {
          
     
 }
-
-// The Model struct now initializes with a ShapeType
-struct Model: Identifiable {
-    var id = UUID()
-    var modelName: String
-    var image: UIImage
-    var modelEntity: ModelEntity?
-    var shapeType: ShapeType
-
-    init(modelName: String, shapeType: ShapeType) {
-        self.shapeType = shapeType
-        self.modelName = modelName
-        self.image = UIImage(named: modelName) ?? UIImage()
-        self.modelEntity = self.shapeType.createModelEntity()
-        self.modelEntity?.generateCollisionShapes(recursive: true)
-    }
-}
-
-
-
-
-// ViewModel holding the array of Model objects
-struct ViewModel {
-    var shapes: [Model] = [
-        Model(modelName: "Shape0", shapeType: .square),
-        Model(modelName: "Shape1", shapeType: .circle),
-        
-        // Initialize other shapes with their corresponding types
-    ]
-    static let droplet: Model = Model(modelName: "Droplet", shapeType: .circle)
-}
-

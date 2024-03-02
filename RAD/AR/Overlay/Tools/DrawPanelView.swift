@@ -35,7 +35,7 @@ struct DrawPanelView: View {
                             .frame(width: 20, height: 20)
                             .padding()
                     }
-                    .background(.ultraThinMaterial)
+                    .background(arLogic.currentActiveMode == .erasing ? Material.ultraThick : Material.ultraThin)
                     .clipShape(Circle())
                     Text("Eraser")
                         .font(adjustedFont)
@@ -63,7 +63,7 @@ struct DrawPanelView: View {
                             .frame(width: 20, height: 20)
                             .padding()
                     }
-                    .background(.ultraThinMaterial)
+                    .background(arLogic.currentActiveMode == .drawing ? Material.ultraThick : Material.ultraThin)
                     .clipShape(Circle())
                     Text("Brushes")
                         .font(adjustedFont)
