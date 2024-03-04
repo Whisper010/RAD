@@ -98,7 +98,16 @@ struct DrawPanelView: View {
             }
                 
             .padding(.horizontal)
-            Button(action:{}) {
+            Button(action:{
+//                if arLogic.currentActiveMode != .shaping {
+//                    arLogic.currentActiveMode = .shaping
+//                    print("DEBUG: Shaping Mode Active")
+//                } else {
+//                    arLogic.currentActiveMode = .none
+//                    print("DEBUG: Shaping Mode Inactive")
+//                }
+                
+            }) {
                 VStack{
                     HStack{
                         Image(systemName: "eyedropper")
@@ -108,7 +117,7 @@ struct DrawPanelView: View {
                             .frame(width: 20, height: 20)
                             .padding()
                     }
-                    .background(.ultraThinMaterial)
+                    .background(arLogic.currentActiveMode == .shaping ? Material.ultraThick : Material.ultraThin)
                     .clipShape(Circle())
                     
                     Text("Picker")

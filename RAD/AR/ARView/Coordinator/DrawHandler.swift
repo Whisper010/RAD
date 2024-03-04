@@ -15,7 +15,7 @@ func createModelEntity(at position: SIMD3<Float>, color: UIColor) -> AnchorEntit
     
        let mesh = MeshResource.generateSphere(radius: 0.005)
        
-        let material = SimpleMaterial(color: color, roughness: 0.5, isMetallic: true)
+    let material = SimpleMaterial(color: color, roughness: 1.0, isMetallic: false)
        
        let modelEntity = ModelEntity(mesh: mesh, materials: [material])
        

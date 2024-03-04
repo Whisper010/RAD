@@ -22,7 +22,7 @@ struct Model: Identifiable {
         self.modelName = modelName
         self.image = UIImage(named: modelName) ?? UIImage()
         self.modelEntity = self.shapeType.createModelEntity()
-        self.modelEntity?.generateCollisionShapes(recursive: true)
+        self.modelEntity?.generateCollisionShapes(recursive: false)
     }
 }
 
@@ -32,6 +32,7 @@ struct ViewModel {
     var shapes: [Model] = [
         Model(modelName: "Shape0", shapeType: .square),
         Model(modelName: "Shape1", shapeType: .circle),
+        Model(modelName: "Shape2", shapeType: .line)
         
     ]
     static let droplet: Model = Model(modelName: "Droplet", shapeType: .circle)

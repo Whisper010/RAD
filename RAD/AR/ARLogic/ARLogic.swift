@@ -10,7 +10,6 @@ import SwiftUI
 @Observable
 class ARLogic {
     
-    
     var currentSelectedTool: Tool = .none
     var currentActiveMode: Mode = .none
     var selectedColor: Color = .black
@@ -32,5 +31,6 @@ enum Tool{
 enum Mode {
     case drawing
     case erasing
+    case shaping
     case none
 }

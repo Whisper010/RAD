@@ -18,8 +18,12 @@ extension ARViewContainer {
         var drawState: Mode = .none
         var selectedColor: UIColor = .black
         
+        var selectedModel: Model?
+        
         var cancellables = Set<AnyCancellable>()
         var drawingEnteties: [DrawingEntity] = []
+        
+        
         
         
         override init(){
@@ -75,14 +79,15 @@ extension ARViewContainer {
             switch drawState {
             case .drawing:
                 // Drawing logic
-                switch recognizer.state {
-                case .began, .changed:
+                if recognizer.state == .began || recognizer.state == .changed{
+                
                     if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
                         let results = arView.session.raycast(raycastQuery)
                         if let firstResult = results.first {
                             
                             let matrix = firstResult.worldTransform
                             let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
+                            
                             
                             let anchorWithChild = createModelEntity(at: position, color: selectedColor)
                             
@@ -92,9 +97,103 @@ extension ARViewContainer {
                             
                         }
                     }
+                }
+            case .shaping:
+                // Shaping logic
+                
+
+                switch recognizer.state{
+                case .began:
+                 
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                        let results = arView.session.raycast(raycastQuery)
+                        if let firstResult = results.first {
+                            
+                            let matrix = firstResult.worldTransform
+                            let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
+                            
+                            // action
+                            
+                            var modelEntity = ShapeFactory.createModelEntity(vertices: ShapeFactory.createSquareVertices(size: 0.02))
+                                modelEntity.generateCollisionShapes(recursive: true)
+                            
+                                let anchor = AnchorEntity(world: position)
+                                
+                                anchor.name = "Shapes"
+                                anchor.addChild(modelEntity)
+                            
+                                arView.installGestures([.translation, .rotation, .scale], for: modelEntity)
+                                
+                                
+                            
+                                arView.scene.addAnchor(anchor)
+                            
+                                drawingEnteties.append(DrawingEntity(anchor: anchor, worldPosition: position))
+                            
+                        }
+                    }
+                case .changed:
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                        let results = arView.session.raycast(raycastQuery)
+                        if let firstResult = results.first {
+                            
+                            let matrix = firstResult.worldTransform
+                            let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
+                            
+                            // action
+                            
+                            let drawingEntity = drawingEnteties.last
+                            if let drawingEntity = drawingEntity {
+                                
+                                let origin = drawingEntity.worldPosition
+                                if let modelEntity = drawingEntity.anchor.children.first{
+                                    
+                                    let distance = simd_distance(origin, position)
+                                    let scaleFactor: Float = 50
+                                    
+                                    // Update position
+                                    
+                                    
+                                    modelEntity.transform.scale.x = distance * scaleFactor
+                                    let aspectRatio:Float = 1
+                                    modelEntity.transform.scale.y = distance * aspectRatio * scaleFactor
+                                    
+                                    
+                                    
+                                }
+                            }
+                           
+                            
+                        }
+                    }
+//
+//                case .ended:
+//                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .any) {
+//                        let results = arView.session.raycast(raycastQuery)
+//                        if let firstResult = results.first {
+//                            
+//                            let matrix = firstResult.worldTransform
+//                            let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
+//                            
+//                            // action
+//                            
+//                            if let modelEntity = modelEntity {
+//                                let anchor = AnchorEntity(world: position)
+//                                anchor.name = "Shape"
+//                                anchor.addChild(modelEntity)
+//                                arView.scene.addAnchor(anchor)
+//                            }
+//                            
+//                           
+//                            
+//                        }
+//                    }
+                    
+//
                 default:
                     break
                 }
+            
                 
             case .erasing:
 //                 Eraser logic
@@ -116,12 +215,19 @@ extension ARViewContainer {
                         }
                     }
                 }
+                
             default:
                 break
             }
+            
             
            
         }
         
     }
 }
+
+//extension ARViewContainer.Coordinator {
+//    
+//    
+//}

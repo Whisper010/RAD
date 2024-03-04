@@ -24,11 +24,11 @@ struct ShapeView: View {
                         Image(shape.modelName)
                             .resizable()
                             .frame(width: 30,height: 30)
-                            .clipShape(RoundedRectangle(cornerRadius: 5.0).size(width: 30, height: 30))
+                            .aspectRatio(contentMode: .fit)
                     }
                 }
                 .padding()
-                .background(Color.gray)
+                .background(Color.white)
                 .foregroundColor(.white)
                 .cornerRadius(10)
             }.padding()

@@ -60,25 +60,28 @@ struct ARViewContainer: UIViewRepresentable {
     
     
     func updateUIView(_ uiView: ARView, context: Context) {
-    
+        
         
         
         switch arLogic.currentActiveMode {
-            case .drawing where context.coordinator.drawState != .drawing:
-                context.coordinator.drawState = .drawing
-            case .erasing where context.coordinator.drawState != .erasing:
-                context.coordinator.drawState = .erasing
-            case .none:
-                context.coordinator.drawState = .none
-            default:
-                break
-            }
+            
+        case .drawing where context.coordinator.drawState != .drawing:
+            context.coordinator.drawState = .drawing
+        case .shaping where context.coordinator.drawState != .shaping:
+            context.coordinator.drawState = .shaping
+        case .erasing where context.coordinator.drawState != .erasing:
+            context.coordinator.drawState = .erasing
+        case .none:
+            context.coordinator.drawState = .none
+        default:
+            break
+        }
         
         if UIColor(arLogic.selectedColor) != context.coordinator.selectedColor{
             context.coordinator.selectedColor = UIColor(arLogic.selectedColor)
         }
-
-      
+        
+        
         
         // Update the AR view
         if let model = arLogic.modelSelected {
@@ -87,6 +90,7 @@ struct ARViewContainer: UIViewRepresentable {
             anchorEntity.name = "Shape"
             
             if let modelEntity = model.modelEntity {
+                
                 anchorEntity.addChild(modelEntity)
                 uiView.installGestures([.translation, .rotation, .scale], for: modelEntity)
             }
