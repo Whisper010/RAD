@@ -18,42 +18,60 @@ struct CameraInterfaceView: View {
                 ZStack (alignment: .bottom) {
                     /*Color.clear*/ // Simulate camera view with semi-transparent background
 //                        .edgesIgnoringSafeArea(.all)
-                    VStack {
                                                   
-                        HStack( spacing: 20) {
+                    HStack(alignment: .bottom, spacing: 30) {
                             
                             
                             Button(action: {
-                                arLogic.currentMode = .none
+                                arLogic.currentSelectedTool = .none
                             }) {
-                                
-                                Image(systemName: "chevron.left")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 30))
-                                    .imageScale(.large)
+                                HStack{
+                                    Image(systemName: "chevron.left")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .imageScale(.small)
+                                        .frame(width: 20, height: 20)
+                                        .padding()
+                                }
+                                .background(.ultraThinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    
                             }
-                            .padding()
+                            .buttonStyle(PlainButtonStyle())
                             
-                           
-
+                            
                             
 
                             Button(action: {}) {
-                                Image(systemName: "camera.circle")
-                                    .font(.system(size: 70))
-                                    .foregroundColor(.white)
+                                HStack{
+                                    Image(systemName: "camera.circle")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .imageScale(.large)
+                                        .frame(width: 50, height: 50)
+                                        .padding()
+                                }.background(.thinMaterial)
+                                    .clipShape(Circle())
+                                    
                             }
-
+                            .buttonStyle(PlainButtonStyle())
                          
                             Button(action: {
                                 // This button will now present the ImageUploadCollectionViewController
                                 showingImageUploadView = true
                             }) {
-                                Image(systemName: "photo")
-                                    .font(.largeTitle)
-                                    .foregroundColor(.white)
+                                HStack{
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .imageScale(.small)
+                                        .frame(width: 20, height: 20)
+                                        .padding()
+                                }
+                                .background(.ultraThinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                             }
-                            .padding(.leading, 20) // Add padding to the leading button
+                            .buttonStyle(PlainButtonStyle())
                             .sheet(isPresented: $showingImageUploadView) {
                                 ImageUploadCollectionViewController()
                             }
@@ -66,9 +84,8 @@ struct CameraInterfaceView: View {
 //                            .padding(.trailing, 20) // Add padding to the trailing button
 //                            .opacity(0)
                         }
-                        .frame(height: 100)
-                        .background(Color.clear) // Simulated bottom bar
-                    }
+                        
+                    
                 }
             }
             

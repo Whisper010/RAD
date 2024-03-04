@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232730BE2B874DA300F4DD00 /* DrawPanelView.swift */; };
 		232730C12B8751FC00F4DD00 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232730C02B8751FC00F4DD00 /* ToolView.swift */; };
+		2329ED072B935C810044F388 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED062B935C810044F388 /* ARViewContainer.swift */; };
+		2329ED092B935CBB0044F388 /* ARLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED082B935CBB0044F388 /* ARLogic.swift */; };
+		2329ED102B935F390044F388 /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED0F2B935F390044F388 /* OverlayView.swift */; };
+		2329ED122B935F690044F388 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED112B935F690044F388 /* Coordinator.swift */; };
+		2329ED152B935FDC0044F388 /* DrawingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED142B935FDC0044F388 /* DrawingEntity.swift */; };
+		2329ED172B9360D80044F388 /* DrawHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED162B9360D80044F388 /* DrawHandler.swift */; };
+		2329ED1A2B9361950044F388 /* ShapeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED192B9361950044F388 /* ShapeType.swift */; };
+		2329ED1C2B9361AC0044F388 /* ShapeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2329ED1B2B9361AC0044F388 /* ShapeFactory.swift */; };
 		232A06B72B8DEE6100357DBC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232A06B62B8DEE6100357DBC /* Model.swift */; };
 		23848F4E2B7B73AC009FF40B /* RADApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F4D2B7B73AC009FF40B /* RADApp.swift */; };
 		23848F502B7B73AC009FF40B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F4F2B7B73AC009FF40B /* ContentView.swift */; };
@@ -43,6 +51,14 @@
 /* Begin PBXFileReference section */
 		232730BE2B874DA300F4DD00 /* DrawPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawPanelView.swift; sourceTree = "<group>"; };
 		232730C02B8751FC00F4DD00 /* ToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
+		2329ED062B935C810044F388 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		2329ED082B935CBB0044F388 /* ARLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLogic.swift; sourceTree = "<group>"; };
+		2329ED0F2B935F390044F388 /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
+		2329ED112B935F690044F388 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		2329ED142B935FDC0044F388 /* DrawingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEntity.swift; sourceTree = "<group>"; };
+		2329ED162B9360D80044F388 /* DrawHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawHandler.swift; sourceTree = "<group>"; };
+		2329ED192B9361950044F388 /* ShapeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeType.swift; sourceTree = "<group>"; };
+		2329ED1B2B9361AC0044F388 /* ShapeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeFactory.swift; sourceTree = "<group>"; };
 		232A06B62B8DEE6100357DBC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		23848F4A2B7B73AC009FF40B /* RAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23848F4D2B7B73AC009FF40B /* RADApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADApp.swift; sourceTree = "<group>"; };
@@ -85,6 +101,93 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2329ED042B935C300044F388 /* AR */ = {
+			isa = PBXGroup;
+			children = (
+				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
+				2329ED0A2B935D150044F388 /* ARLogic */,
+				2329ED052B935C3C0044F388 /* ARView */,
+				2329ED0B2B935E280044F388 /* Overlay */,
+				2329ED0E2B935EAB0044F388 /* Model */,
+			);
+			path = AR;
+			sourceTree = "<group>";
+		};
+		2329ED052B935C3C0044F388 /* ARView */ = {
+			isa = PBXGroup;
+			children = (
+				2329ED062B935C810044F388 /* ARViewContainer.swift */,
+				2329ED132B935FA20044F388 /* Coordinator */,
+			);
+			path = ARView;
+			sourceTree = "<group>";
+		};
+		2329ED0A2B935D150044F388 /* ARLogic */ = {
+			isa = PBXGroup;
+			children = (
+				2329ED082B935CBB0044F388 /* ARLogic.swift */,
+			);
+			path = ARLogic;
+			sourceTree = "<group>";
+		};
+		2329ED0B2B935E280044F388 /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				2329ED0F2B935F390044F388 /* OverlayView.swift */,
+				2329ED0D2B935E780044F388 /* Tools */,
+				2329ED0C2B935E5D0044F388 /* Camera */,
+			);
+			path = Overlay;
+			sourceTree = "<group>";
+		};
+		2329ED0C2B935E5D0044F388 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */,
+				EC5812772B8C999D00CCBACC /* CameraSecondView.swift */,
+				EC5812792B8CA40800CCBACC /* ImageUploadCollectionView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		2329ED0D2B935E780044F388 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				232730BE2B874DA300F4DD00 /* DrawPanelView.swift */,
+				232730C02B8751FC00F4DD00 /* ToolView.swift */,
+				69BB71F32B875936002320C3 /* ShapeView.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		2329ED0E2B935EAB0044F388 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				232A06B62B8DEE6100357DBC /* Model.swift */,
+				2329ED182B93614C0044F388 /* Shapes */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2329ED132B935FA20044F388 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				2329ED112B935F690044F388 /* Coordinator.swift */,
+				2329ED162B9360D80044F388 /* DrawHandler.swift */,
+				2329ED142B935FDC0044F388 /* DrawingEntity.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		2329ED182B93614C0044F388 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				2329ED1B2B9361AC0044F388 /* ShapeFactory.swift */,
+				2329ED192B9361950044F388 /* ShapeType.swift */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
 		23848F412B7B73AC009FF40B = {
 			isa = PBXGroup;
 			children = (
@@ -108,15 +211,8 @@
 		23848F4C2B7B73AC009FF40B /* RAD */ = {
 			isa = PBXGroup;
 			children = (
-				EC5812792B8CA40800CCBACC /* ImageUploadCollectionView.swift */,
-				EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */,
-				EC5812772B8C999D00CCBACC /* CameraSecondView.swift */,
 				23848F4D2B7B73AC009FF40B /* RADApp.swift */,
-				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
-				69BB71F32B875936002320C3 /* ShapeView.swift */,
-				232730C02B8751FC00F4DD00 /* ToolView.swift */,
-				232730BE2B874DA300F4DD00 /* DrawPanelView.swift */,
-				232A06B62B8DEE6100357DBC /* Model.swift */,
+				2329ED042B935C300044F388 /* AR */,
 				23848F512B7B73AD009FF40B /* Assets.xcassets */,
 				23848F532B7B73AD009FF40B /* Preview Content */,
 			);
@@ -279,14 +375,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				232A06B72B8DEE6100357DBC /* Model.swift in Sources */,
+				2329ED1A2B9361950044F388 /* ShapeType.swift in Sources */,
 				69BB71F42B875936002320C3 /* ShapeView.swift in Sources */,
+				2329ED122B935F690044F388 /* Coordinator.swift in Sources */,
 				EC58127A2B8CA40800CCBACC /* ImageUploadCollectionView.swift in Sources */,
 				EC5812782B8C999D00CCBACC /* CameraSecondView.swift in Sources */,
 				232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */,
 				23848F502B7B73AC009FF40B /* ContentView.swift in Sources */,
 				EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */,
 				232730C12B8751FC00F4DD00 /* ToolView.swift in Sources */,
+				2329ED172B9360D80044F388 /* DrawHandler.swift in Sources */,
+				2329ED1C2B9361AC0044F388 /* ShapeFactory.swift in Sources */,
+				2329ED092B935CBB0044F388 /* ARLogic.swift in Sources */,
+				2329ED102B935F390044F388 /* OverlayView.swift in Sources */,
 				23848F4E2B7B73AC009FF40B /* RADApp.swift in Sources */,
+				2329ED072B935C810044F388 /* ARViewContainer.swift in Sources */,
+				2329ED152B935FDC0044F388 /* DrawingEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,7 +552,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"RAD/Preview Content\"";
 				DEVELOPMENT_TEAM = LVL6KP2RMP;
 				ENABLE_PREVIEWS = YES;
@@ -464,7 +568,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RAD.DelineAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -479,7 +583,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"RAD/Preview Content\"";
 				DEVELOPMENT_TEAM = LVL6KP2RMP;
 				ENABLE_PREVIEWS = YES;
@@ -495,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RAD.DelineAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
