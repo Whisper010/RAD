@@ -99,13 +99,7 @@ struct DrawPanelView: View {
                 
             .padding(.horizontal)
             Button(action:{
-//                if arLogic.currentActiveMode != .shaping {
-//                    arLogic.currentActiveMode = .shaping
-//                    print("DEBUG: Shaping Mode Active")
-//                } else {
-//                    arLogic.currentActiveMode = .none
-//                    print("DEBUG: Shaping Mode Inactive")
-//                }
+          
                 
             }) {
                 VStack{

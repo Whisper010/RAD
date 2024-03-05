@@ -10,50 +10,122 @@ import RealityKit
 
 
 
-func createModelEntity(at position: SIMD3<Float>, color: UIColor) -> AnchorEntity {
-    @Environment(ARLogic.self) var arLogic
+func createModelEntity(at position: SIMD3<Float>, color: UIColor)  -> AnchorEntity {
     
-       let mesh = MeshResource.generateSphere(radius: 0.005)
-       
-    let material = SimpleMaterial(color: color, roughness: 1.0, isMetallic: false)
-       
-       let modelEntity = ModelEntity(mesh: mesh, materials: [material])
-       
-       // Create an anchor entity at the given world position.
-        let anchorEntity = AnchorEntity(world: position)
-    
+        let mesh = MeshResource.generateSphere(radius: 0.001)
         
-       
+        let material = SimpleMaterial(color: color, roughness: 1.0, isMetallic: false)
+        
+        let modelEntity = ModelEntity(mesh: mesh, materials: [material])
+        
+        modelEntity.generateCollisionShapes(recursive: false)
+        
+        
+        // Create an anchor entity at the given world position.
+        let anchorEntity = AnchorEntity(world: position)
+        
+        
+        
         anchorEntity.name = "Droplet"
+        
+        // Add the model entity to the anchor entity.
+        anchorEntity.addChild(modelEntity)
+        
+        
+        return anchorEntity
     
-       // Add the model entity to the anchor entity.
-       anchorEntity.addChild(modelEntity)
-    
-      
-    
-    return anchorEntity
 }
 
-func findEntitiesToErase(near centerPosition: SIMD3<Float>, withRadius radius: Float, in drawingEntities: [DrawingEntity]) ->  [AnchorEntity] {
-    
-        var entitiesToErase = [AnchorEntity]()
+func createTube( startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, radius: Float, segments: Int, maxHeight: Float, color: UIColor) -> AnchorEntity {
+        
+        var vertices: [SIMD3<Float>] = []
+        var indices: [UInt32] = []
 
-
-        // Filter only the anchors with the name "Droplet"
-    let entities = drawingEntities.filter{$0.anchor.name == "Droplet"}
-    
-
-        for entity in entities  {
-            // Check if the anchor is within the defined radius
-            let distance: Float = simd_distance(entity.worldPosition,centerPosition)
+        let height = min(simd_distance(endPosition, startPosition), maxHeight)
             
-            if distance <= radius {
-                entitiesToErase.append(entity.anchor)
+        
+    
+
+        // Generate vertices for the tube
+        for z in [0, height] {
+            for i in 0..<segments {
+                let theta = 2 * Float.pi * Float(i) / Float(segments)
+                let x = radius * cos(theta)
+                let y = radius * sin(theta)
+                vertices.append(SIMD3<Float>(x, y, Float(z)))
             }
         }
 
-        return entitiesToErase
-}
+        // Calculate triangles for the tube's sides
+        for i in 0..<segments {
+            let nextIndex = (i + 1) % segments
+            let topI = UInt32(i)
+            let bottomI = UInt32(i + segments)
+            let topNextI = UInt32(nextIndex)
+            let bottomNextI = UInt32(nextIndex + segments)
+
+            indices.append(contentsOf: [bottomI, topI, bottomNextI])
+            indices.append(contentsOf: [topI, topNextI, bottomNextI])
+            
+            indices.append(contentsOf: [bottomI,bottomNextI, topI ])
+            indices.append(contentsOf: [topI, bottomNextI, topNextI])
+        }
+
+        // Create Mesh
+        var meshDescriptor = MeshDescriptor()
+        meshDescriptor.positions = .init(vertices)
+        meshDescriptor.primitives = .triangles(indices)
+       
+        let material = SimpleMaterial(color: color, isMetallic: false)
+        let mesh = try! MeshResource.generate(from: [meshDescriptor])
+        let modelEntity = ModelEntity(mesh: mesh, materials: [material])
+        
+    
+        // Rotate tube to my new position
+       let normalizedDirection = normalize(endPosition - startPosition)
+
+
+       let referenceVector = SIMD3<Float>(0, 0, 1)
+
+       
+       let rotationAxis = cross(referenceVector, normalizedDirection)
+       let angle = acos(dot(referenceVector, normalizedDirection) / (length(referenceVector) * length(normalizedDirection)))
+
+       
+       let rotation = simd_quatf(angle: angle , axis: rotationAxis)
+        modelEntity.transform.rotation = rotation
+    
+        modelEntity.position = SIMD3(0, 0, 0)
+    
+    modelEntity.generateCollisionShapes(recursive: true)
+        
+        let anchorWithChild = AnchorEntity(world: startPosition)
+        anchorWithChild.addChild(modelEntity)
+        anchorWithChild.name = "Droplet"
+        
+        return anchorWithChild
+    }
+
+    func findEntitiesToErase(near centerPosition: SIMD3<Float>, withRadius radius: Float, in drawingEntities: [DrawingEntity]) ->  [AnchorEntity] {
+        
+            var entitiesToErase = [AnchorEntity]()
+
+
+            // Filter only the anchors with the name "Droplet"
+        let entities = drawingEntities.filter{$0.anchor.name == "Droplet"}
+        
+
+            for entity in entities  {
+                // Check if the anchor is within the defined radius
+                let distance: Float = simd_distance(entity.worldPosition,centerPosition)
+                
+                if distance <= radius {
+                    entitiesToErase.append(entity.anchor)
+                }
+            }
+
+            return entitiesToErase
+    }
 
 //struct BeamParameters {
 //    var startPosition: SIMD3<Float>

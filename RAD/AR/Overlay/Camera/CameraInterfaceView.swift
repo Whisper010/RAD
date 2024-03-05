@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct CameraInterfaceView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -42,7 +43,10 @@ struct CameraInterfaceView: View {
                             
                             
 
-                            Button(action: {}) {
+                            Button(action: {
+                                arLogic.makingPhoto = true
+                                playStutterSound()
+                            }) {
                                 HStack{
                                     Image(systemName: "camera.circle")
                                         .resizable()
@@ -90,6 +94,16 @@ struct CameraInterfaceView: View {
             }
             
     }
+}
+
+func playStutterSound() {
+
+    var soundID: SystemSoundID = 1108
+    if #available(iOS 9.0, *) {
+            AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(soundID), nil)
+        } else {
+            AudioServicesPlaySystemSound(soundID)
+        }
 }
 
 //

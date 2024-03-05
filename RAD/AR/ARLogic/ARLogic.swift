@@ -13,7 +13,10 @@ class ARLogic {
     var currentSelectedTool: Tool = .none
     var currentActiveMode: Mode = .none
     var selectedColor: Color = .black
-    var modelSelected: Model?
+    var selectedModel: Model?
+    
+    var makingPhoto: Bool = false
+    var images: [UIImage] = []
     
     
     var isModifying: Bool = false
@@ -34,3 +37,4 @@ enum Mode {
     case shaping
     case none
 }
+

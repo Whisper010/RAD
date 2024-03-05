@@ -2,11 +2,22 @@ import SwiftUI
 
 struct CameraSecondView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Binding var pickedImage: UIImage
     
     var body: some View {
         ZStack {
             // Simulated camera viewfinder
 //            Color.black.edgesIgnoringSafeArea(.all)
+            
+            VStack{
+                
+                Image(uiImage: pickedImage)
+                    .resizable()
+                    .frame(width: 500, height: 400)
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 10.0))
+                    
+            }
             
             // Layout for camera UI
             VStack {
@@ -15,17 +26,19 @@ struct CameraSecondView: View {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
-                        Image(systemName: "chevron.backward.circle.fill")
+                        Image(systemName: "multiply.circle.fill")
                             .font(.title)
                             .foregroundColor(.white)
-                            .padding(20)
+                            .padding()
                             .background(Color.black.opacity(0.5))
                             .clipShape(Circle())
                     }
                     Spacer()
-                }
-                
+                }.padding()
                 Spacer()
+            }
+            VStack{
+                Spacer().frame(height: 100)
                 
                 // Side bar with camera controls icons
                 HStack {
@@ -73,22 +86,24 @@ struct CameraSecondView: View {
                         }
                     }
                     .padding(.trailing, 20)
-                }
-                
-                // Bottom capture button with shadow for depth
-                Button(action: {
-                    // Action to take a picture
-                }) {
-                    Image(systemName: "circle.fill")
-                        .font(.system(size: 72))
-                        .foregroundColor(.white)
-                        .padding(20)
-                        .background(Color.black.opacity(0.5))
-                        .clipShape(Circle())
-                        .shadow(radius: 10)
-                }
-                .padding(.bottom, 50)
+                }.padding(.top)
+                Spacer()
             }
+            
+//                // Bottom capture button with shadow for depth
+//                Button(action: {
+//                    // Action to take a picture
+//                }) {
+//                    Image(systemName: "circle.fill")
+//                        .font(.system(size: 72))
+//                        .foregroundColor(.white)
+//                        .padding(20)
+//                        .background(Color.black.opacity(0.5))
+//                        .clipShape(Circle())
+//                        .shadow(radius: 10)
+//                }
+//                .padding(.bottom, 50)
+            
         }
         .navigationBarHidden(true) // Ensures the navigation bar does not show
     }
@@ -96,6 +111,6 @@ struct CameraSecondView: View {
 
 struct CameraSecondView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraSecondView()
+        CameraSecondView(pickedImage:  .constant (UIImage()))
     }
 }

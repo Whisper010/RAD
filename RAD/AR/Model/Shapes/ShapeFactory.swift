@@ -12,7 +12,7 @@ import SwiftUI
 // ShapeFactory class to encapsulate the shape creation logic
 struct ShapeFactory {
     
-    static let borderSize: Float = 10
+    static let borderSize: Float = 2
     static let angleInDegrees: Float = -90
     static let angleInRadians: Float = angleInDegrees * (Float.pi / 180)
 

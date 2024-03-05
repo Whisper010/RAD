@@ -18,7 +18,7 @@ struct ARViewContainer: UIViewRepresentable {
     
     
     func makeCoordinator() -> Coordinator {
-            Coordinator()
+        Coordinator()
     }
     
     func makeUIView(context: Context) -> ARView {
@@ -31,24 +31,25 @@ struct ARViewContainer: UIViewRepresentable {
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = [.horizontal, .vertical]
         config.environmentTexturing = .automatic
-          
+        
         // Enable people occlusion if available
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth) {
             config.frameSemantics.insert(.personSegmentationWithDepth)
         } else if ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentation) {
             config.frameSemantics.insert(.personSegmentation)
         }
-         
+        
         if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
             
             config.sceneReconstruction = .mesh
-//
-//            // Enable automatic occlusion of virtual content by the mesh
-//            arView.environment.sceneUnderstanding.options.insert(.occlusion)
+            //
+            //            // Enable automatic occlusion of virtual content by the mesh
+            //            arView.environment.sceneUnderstanding.options.insert(.occlusion)
         }
         
         
         arView.session.run(config)
+        arView.renderOptions = .disableGroundingShadows
         
         // Subscribe for Event update every frame
         context.coordinator.setupSubscriptions()
@@ -56,7 +57,7 @@ struct ARViewContainer: UIViewRepresentable {
         return arView
     }
     
-  
+    
     
     
     func updateUIView(_ uiView: ARView, context: Context) {
@@ -69,6 +70,7 @@ struct ARViewContainer: UIViewRepresentable {
             context.coordinator.drawState = .drawing
         case .shaping where context.coordinator.drawState != .shaping:
             context.coordinator.drawState = .shaping
+            //            context.coordinator.selectedModel = arLogic.selectedModel
         case .erasing where context.coordinator.drawState != .erasing:
             context.coordinator.drawState = .erasing
         case .none:
@@ -81,10 +83,22 @@ struct ARViewContainer: UIViewRepresentable {
             context.coordinator.selectedColor = UIColor(arLogic.selectedColor)
         }
         
+        if arLogic.makingPhoto {
+            context.coordinator.captureARViewFrame{ capturedImage in
+                if let photo = capturedImage {
+                    arLogic.images.append(photo)
+                    
+                }
+            }
+            arLogic.makingPhoto = false
+        }
         
         
         // Update the AR view
-        if let model = arLogic.modelSelected {
+        if let selectedModel = arLogic.selectedModel {
+            
+            let model = Model(modelName: selectedModel.modelName, shapeType: selectedModel.shapeType)
+            
             print("DEBUG: adding model to scene - \(model.modelName)")
             let anchorEntity = AnchorEntity(plane: .any)
             anchorEntity.name = "Shape"
@@ -97,7 +111,7 @@ struct ARViewContainer: UIViewRepresentable {
             
             uiView.scene.addAnchor(anchorEntity)
             DispatchQueue.main.async {
-                self.arLogic.modelSelected = nil
+                self.arLogic.selectedModel = nil
             }
         }
         

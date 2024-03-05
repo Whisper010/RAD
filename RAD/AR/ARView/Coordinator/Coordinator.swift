@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import ARKit
 import Combine
 
 
@@ -28,6 +29,14 @@ extension ARViewContainer {
         
         override init(){
             super.init()
+        }
+        
+        func captureARViewFrame(completion: @escaping (UIImage?) -> Void) {
+            guard let arView = self.arView else {  completion(nil)
+                return }
+            return arView.snapshot(saveToHDR: false) { image in
+                completion(image)
+            }
         }
         
         func setupSubscriptions() {
@@ -66,38 +75,125 @@ extension ARViewContainer {
             if let entity = arView.entity(at: location) {
                 if let anchorEntity = entity.anchor, anchorEntity.name == "Shape" {
                     anchorEntity.removeFromParent()
+                    for child in anchorEntity.children {
+                        anchorEntity.removeChild(child)
+                    }
                     
                 }
             }
+            
+            if drawState == .erasing {
+                if let entity = arView.entity(at: location) {
+                    if let anchorEntity = entity.anchor, anchorEntity.name == "Droplet" {
+                        anchorEntity.removeFromParent()
+                       
+                        for child in anchorEntity.children {
+                            anchorEntity.removeChild(child)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Example of an async function for raycasting
+        func performRaycast(from location: CGPoint, allowing: ARRaycastQuery.Target, alignment: ARRaycastQuery.TargetAlignment) -> SIMD3<Float>? {
+            guard let arView = self.arView else { return nil }
+                
+                // Create a raycast query
+                guard let query = arView.makeRaycastQuery(from: location, allowing: allowing, alignment: alignment) else { return nil }
+                
+                // Perform the raycast synchronously
+                let results = arView.session.raycast(query)
+                
+                // Get the first result and extract the world transform position
+                guard let firstResult = results.first else { return nil }
+                let matrix = firstResult.worldTransform
+                let position = SIMD3<Float>(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z)
+                
+                return position
         }
         
         @objc func handlePan(recognizer: UIPanGestureRecognizer) {
             guard let arView = arView else { return }
             let location = recognizer.location(in: arView)
             
+            var allowingMode: ARRaycastQuery.Target = .existingPlaneInfinite
             
             switch drawState {
             case .drawing:
                 // Drawing logic
-                if recognizer.state == .began || recognizer.state == .changed{
-                
-                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
-                        let results = arView.session.raycast(raycastQuery)
-                        if let firstResult = results.first {
-                            
-                            let matrix = firstResult.worldTransform
-                            let position = SIMD3<Float>(matrix.columns.3.x , matrix.columns.3.y , matrix.columns.3.z)
-                            
-                            
-                            let anchorWithChild = createModelEntity(at: position, color: selectedColor)
-                            
-                            arView.scene.addAnchor(anchorWithChild)
-                            
-                            drawingEnteties.append(DrawingEntity(anchor: anchorWithChild, worldPosition: position))
-                            
-                        }
+                switch recognizer.state {
+                    
+                case .began:
+                    if let position =  performRaycast(from: location, allowing: allowingMode, alignment: .any) {
+                        
+                        
+                        
+                        let anchor = AnchorEntity(world: position)
+                        anchor.name = "Droplet"
+                        arView.scene.addAnchor(anchor)
+                        
+                        drawingEnteties.append(DrawingEntity(anchor: anchor, worldPosition: position))
+                        
                     }
+                    
+                case .changed:
+                    if let position =  performRaycast(from: location, allowing: allowingMode, alignment: .any) {
+                        
+                        
+                        if let last = drawingEnteties.last {
+                            
+                            let startPosition = last.worldPosition
+                            let endPosition = position
+                            let maxHeight: Float = 0.005
+                            let tubeSegment = createTube(startPosition: startPosition, endPosition: endPosition, radius: 0.002, segments: 9, maxHeight: maxHeight, color: selectedColor)
+                            
+                            var distanceToFill =  simd_distance(endPosition ,startPosition)
+                            
+                            var attachPosition = startPosition
+                            
+                            // Fill with space with tube
+                            while distanceToFill > 0 {
+                               
+                                    let direction = normalize(endPosition - attachPosition)
+
+                                    
+                                    let segmentEnd = attachPosition + direction * min(maxHeight, distanceToFill)
+
+                                   
+                                    let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 18, maxHeight: maxHeight, color: selectedColor)
+
+                                    if let child = tubeSegmentToFill.children.first as? HasCollision {
+                                        arView.installGestures([.translation], for: child)
+                                    }
+                                    
+                                    arView.scene.addAnchor(tubeSegmentToFill)
+                                
+                                    drawingEnteties.append(DrawingEntity(anchor: tubeSegmentToFill, worldPosition: position))
+
+                                    attachPosition = segmentEnd
+
+        
+                                    distanceToFill -= min(maxHeight, distanceToFill)
+                            }
+                            
+                            
+                            
+                            
+                            if let child = tubeSegment.children.first as? HasCollision {
+                            arView.installGestures([], for: child)
+                            }
+                            
+                            arView.scene.addAnchor(tubeSegment)
+                            
+                            drawingEnteties.append(DrawingEntity(anchor: tubeSegment, worldPosition: position))
+                        }
+                        
+                    }
+                default:
+                    break
                 }
+                
             case .shaping:
                 // Shaping logic
                 
@@ -105,7 +201,7 @@ extension ARViewContainer {
                 switch recognizer.state{
                 case .began:
                  
-                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: allowingMode, alignment: .any) {
                         let results = arView.session.raycast(raycastQuery)
                         if let firstResult = results.first {
                             
@@ -114,26 +210,28 @@ extension ARViewContainer {
                             
                             // action
                             
-                            var modelEntity = ShapeFactory.createModelEntity(vertices: ShapeFactory.createSquareVertices(size: 0.02))
-                                modelEntity.generateCollisionShapes(recursive: true)
-                            
-                                let anchor = AnchorEntity(world: position)
+                            if let model = selectedModel {
                                 
-                                anchor.name = "Shapes"
-                                anchor.addChild(modelEntity)
-                            
-                                arView.installGestures([.translation, .rotation, .scale], for: modelEntity)
+                                let newModel = Model(modelName: model.modelName, shapeType: model.shapeType)
                                 
-                                
-                            
-                                arView.scene.addAnchor(anchor)
-                            
-                                drawingEnteties.append(DrawingEntity(anchor: anchor, worldPosition: position))
+                                if let modelEntity = newModel.modelEntity{
+                                    let anchor = AnchorEntity(world: position)
+                                    
+                                    anchor.name = "Shape"
+                                    anchor.addChild(modelEntity)
+                                    
+                                    arView.installGestures([.all], for: modelEntity)
+                                    
+                                    arView.scene.addAnchor(anchor)
+                                    
+                                    drawingEnteties.append(DrawingEntity(anchor: anchor, worldPosition: position))
+                                }
+                            }
                             
                         }
                     }
                 case .changed:
-                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: allowingMode, alignment: .any) {
                         let results = arView.session.raycast(raycastQuery)
                         if let firstResult = results.first {
                             
@@ -157,8 +255,6 @@ extension ARViewContainer {
                                     modelEntity.transform.scale.x = distance * scaleFactor
                                     let aspectRatio:Float = 1
                                     modelEntity.transform.scale.y = distance * aspectRatio * scaleFactor
-                                    
-                                    
                                     
                                 }
                             }

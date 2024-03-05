@@ -22,7 +22,7 @@ struct Model: Identifiable {
         self.modelName = modelName
         self.image = UIImage(named: modelName) ?? UIImage()
         self.modelEntity = self.shapeType.createModelEntity()
-        self.modelEntity?.generateCollisionShapes(recursive: false)
+        self.modelEntity?.generateCollisionShapes(recursive: true)
     }
 }
 

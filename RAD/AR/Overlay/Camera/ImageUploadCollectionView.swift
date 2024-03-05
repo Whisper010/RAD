@@ -1,19 +1,28 @@
 import SwiftUI
 
 struct ImageUploadCollectionViewController: View {
-    @State private var images: [UIImage] = []
+    
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var showingEditingView = false
+    @State var pickedImage = UIImage()
+    
+    @Environment(ARLogic.self) private var arLogic
 
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(images, id: \.self) { img in
-                        Image(uiImage: img)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
+                    ForEach(arLogic.images, id: \.self) { image in
+                        Button(action:{
+                            pickedImage = image
+                            showingEditingView = true
+                        }){
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                        }
                     }
                     Button(action: {
                         self.showingImagePicker = true
@@ -37,13 +46,17 @@ struct ImageUploadCollectionViewController: View {
                 ImagePicker(image: self.$inputImage)
             }
         }
+        .sheet(isPresented: $showingEditingView) {
+            CameraSecondView(pickedImage: $pickedImage)
+        }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle to support day mode
         .colorScheme(.light) // Set color scheme to light for day mode
     }
+    
 
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        images.append(inputImage)
+        arLogic.images.append(inputImage)
     }
 }
 

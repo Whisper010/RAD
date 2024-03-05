@@ -18,6 +18,7 @@ struct ToolView: View{
         HStack(spacing: 45){
             
             Button(action:{
+                
                 arLogic.currentSelectedTool = .shape
                 print("DEBUG: Selected Shape Tool")
                 
