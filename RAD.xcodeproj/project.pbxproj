@@ -25,6 +25,7 @@
 		23848F5F2B7B73AD009FF40B /* RADTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F5E2B7B73AD009FF40B /* RADTests.swift */; };
 		23848F692B7B73AD009FF40B /* RADUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F682B7B73AD009FF40B /* RADUITests.swift */; };
 		23848F6B2B7B73AD009FF40B /* RADUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */; };
+		23B8B2812B9915C500DBF5B6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 23B8B2802B9915C500DBF5B6 /* Localizable.xcstrings */; };
 		69BB71F42B875936002320C3 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB71F32B875936002320C3 /* ShapeView.swift */; };
 		EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */; };
 		EC5812782B8C999D00CCBACC /* CameraSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5812772B8C999D00CCBACC /* CameraSecondView.swift */; };
@@ -71,6 +72,7 @@
 		23848F642B7B73AD009FF40B /* RADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RADUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23848F682B7B73AD009FF40B /* RADUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITests.swift; sourceTree = "<group>"; };
 		23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		23B8B2802B9915C500DBF5B6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		69BB71F32B875936002320C3 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 		EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInterfaceView.swift; sourceTree = "<group>"; };
 		EC5812772B8C999D00CCBACC /* CameraSecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSecondView.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				23848F4F2B7B73AC009FF40B /* ContentView.swift */,
+				23B8B2802B9915C500DBF5B6 /* Localizable.xcstrings */,
 				2329ED0A2B935D150044F388 /* ARLogic */,
 				2329ED052B935C3C0044F388 /* ARView */,
 				2329ED0B2B935E280044F388 /* Overlay */,
@@ -332,6 +335,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				it,
 			);
 			mainGroup = 23848F412B7B73AC009FF40B;
 			productRefGroup = 23848F4B2B7B73AC009FF40B /* Products */;
@@ -352,6 +357,7 @@
 			files = (
 				23848F552B7B73AD009FF40B /* Preview Assets.xcassets in Resources */,
 				23848F522B7B73AD009FF40B /* Assets.xcassets in Resources */,
+				23B8B2812B9915C500DBF5B6 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

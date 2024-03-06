@@ -98,7 +98,7 @@ struct CameraInterfaceView: View {
 
 func playStutterSound() {
 
-    var soundID: SystemSoundID = 1108
+    let soundID: SystemSoundID = 1108
     if #available(iOS 9.0, *) {
             AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(soundID), nil)
         } else {

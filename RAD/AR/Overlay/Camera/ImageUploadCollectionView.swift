@@ -8,6 +8,7 @@ struct ImageUploadCollectionViewController: View {
     @State var pickedImage = UIImage()
     
     @Environment(ARLogic.self) private var arLogic
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationView {
@@ -38,7 +39,7 @@ struct ImageUploadCollectionViewController: View {
             .background(Color.white) // Set the background color to white
             .navigationBarTitle("Upload Images")
             .navigationBarItems(trailing: Button(action: {
-                // Add any actions you want to perform when the back button is pressed
+                dismiss()
             }) {
                 Text("Back")
             })

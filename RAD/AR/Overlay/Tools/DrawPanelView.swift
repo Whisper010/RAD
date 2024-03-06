@@ -65,7 +65,7 @@ struct DrawPanelView: View {
                     }
                     .background(arLogic.currentActiveMode == .drawing ? Material.ultraThick : Material.ultraThin)
                     .clipShape(Circle())
-                    Text("Brushes")
+                    Text("Brush")
                         .font(adjustedFont)
                     
                 }
@@ -98,29 +98,29 @@ struct DrawPanelView: View {
             }
                 
             .padding(.horizontal)
-            Button(action:{
-          
-                
-            }) {
-                VStack{
-                    HStack{
-                        Image(systemName: "eyedropper")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .imageScale(.small)
-                            .frame(width: 20, height: 20)
-                            .padding()
-                    }
-                    .background(arLogic.currentActiveMode == .shaping ? Material.ultraThick : Material.ultraThin)
-                    .clipShape(Circle())
-                    
-                    Text("Picker")
-                        .font(adjustedFont)
-                }
-                
-            }
-            .buttonStyle(.plain)
-            .padding(.horizontal)
+//            Button(action:{
+//          
+//                
+//            }) {
+//                VStack{
+//                    HStack{
+//                        Image(systemName: "eyedropper")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .imageScale(.small)
+//                            .frame(width: 20, height: 20)
+//                            .padding()
+//                    }
+//                    .background(arLogic.currentActiveMode == .shaping ? Material.ultraThick : Material.ultraThin)
+//                    .clipShape(Circle())
+//                    
+//                    Text("Picker")
+//                        .font(adjustedFont)
+//                }
+//                
+//            }
+//            .buttonStyle(.plain)
+//            .padding(.horizontal)
 //            Button(action:{}) {
 //                VStack{
 //                    Image(systemName: "rectangle.fill.on.rectangle.fill")

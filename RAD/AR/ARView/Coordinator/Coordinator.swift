@@ -163,9 +163,9 @@ extension ARViewContainer {
                                    
                                     let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 18, maxHeight: maxHeight, color: selectedColor)
 
-                                    if let child = tubeSegmentToFill.children.first as? HasCollision {
-                                        arView.installGestures([.translation], for: child)
-                                    }
+//                                    if let child = tubeSegmentToFill.children.first as? HasCollision {
+//                                        arView.installGestures([], for: child)
+//                                    }
                                     
                                     arView.scene.addAnchor(tubeSegmentToFill)
                                 
@@ -180,10 +180,10 @@ extension ARViewContainer {
                             
                             
                             
-                            if let child = tubeSegment.children.first as? HasCollision {
-                            arView.installGestures([], for: child)
-                            }
-                            
+//                            if let child = tubeSegment.children.first as? HasCollision {
+//                            arView.installGestures([], for: child)
+//                            }
+//                            
                             arView.scene.addAnchor(tubeSegment)
                             
                             drawingEnteties.append(DrawingEntity(anchor: tubeSegment, worldPosition: position))
@@ -220,7 +220,7 @@ extension ARViewContainer {
                                     anchor.name = "Shape"
                                     anchor.addChild(modelEntity)
                                     
-                                    arView.installGestures([.all], for: modelEntity)
+//                                    arView.installGestures([], for: modelEntity)
                                     
                                     arView.scene.addAnchor(anchor)
                                     
@@ -295,7 +295,7 @@ extension ARViewContainer {
 //                 Eraser logic
                 if recognizer.state == .began || recognizer.state == .changed {
                     
-                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: .estimatedPlane, alignment: .any) {
+                    if let raycastQuery = arView.makeRaycastQuery(from: location, allowing: allowingMode, alignment: .any) {
                         let results = arView.session.raycast(raycastQuery)
                         if let firstResult = results.first {
                             
