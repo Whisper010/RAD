@@ -12,6 +12,7 @@ import Combine
 
 
 extension ARViewContainer {
+    
     class Coordinator: NSObject {
         var arView: ARView?
         var longPressGestureRecognizer: UILongPressGestureRecognizer?
@@ -199,11 +200,11 @@ extension ARViewContainer {
                         let startPosition = last.worldPosition
                         var endPosition = position
                         let maxHeight: Float = 0.007
-//                        let maxLength:Float = 0.3
-//                        
-//                        if simd_distance(startPosition, endPosition) > maxLength {
-//                            return
-//                        }
+                        let maxLength:Float = 0.4
+                        
+                        if simd_distance(startPosition, endPosition) > maxLength {
+                            return
+                        }
 //                        
                         publishDrawingEvent(startPosition: startPosition, endPosition: endPosition, maxHeight: maxHeight, color: selectedColor)
                                 
