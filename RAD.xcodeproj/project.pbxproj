@@ -25,6 +25,7 @@
 		23848F5F2B7B73AD009FF40B /* RADTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F5E2B7B73AD009FF40B /* RADTests.swift */; };
 		23848F692B7B73AD009FF40B /* RADUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F682B7B73AD009FF40B /* RADUITests.swift */; };
 		23848F6B2B7B73AD009FF40B /* RADUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */; };
+		239777A02B9A42F40095B8C6 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2397779F2B9A42F40095B8C6 /* Shaders.metal */; };
 		23B8B2812B9915C500DBF5B6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 23B8B2802B9915C500DBF5B6 /* Localizable.xcstrings */; };
 		69BB71F42B875936002320C3 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB71F32B875936002320C3 /* ShapeView.swift */; };
 		EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */; };
@@ -72,6 +73,7 @@
 		23848F642B7B73AD009FF40B /* RADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RADUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23848F682B7B73AD009FF40B /* RADUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITests.swift; sourceTree = "<group>"; };
 		23848F6A2B7B73AD009FF40B /* RADUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RADUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2397779F2B9A42F40095B8C6 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		23B8B2802B9915C500DBF5B6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		69BB71F32B875936002320C3 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 		EC5812732B8C8CA800CCBACC /* CameraInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInterfaceView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				236F4FE82B95E1A400B91E30 /* Info.plist */,
 				23848F4D2B7B73AC009FF40B /* RADApp.swift */,
+				2397779F2B9A42F40095B8C6 /* Shaders.metal */,
 				2329ED042B935C300044F388 /* AR */,
 				23848F512B7B73AD009FF40B /* Assets.xcassets */,
 				23848F532B7B73AD009FF40B /* Preview Content */,
@@ -388,6 +391,7 @@
 				2329ED122B935F690044F388 /* Coordinator.swift in Sources */,
 				EC58127A2B8CA40800CCBACC /* ImageUploadCollectionView.swift in Sources */,
 				EC5812782B8C999D00CCBACC /* CameraSecondView.swift in Sources */,
+				239777A02B9A42F40095B8C6 /* Shaders.metal in Sources */,
 				232730BF2B874DA300F4DD00 /* DrawPanelView.swift in Sources */,
 				23848F502B7B73AC009FF40B /* ContentView.swift in Sources */,
 				EC5812742B8C8CA800CCBACC /* CameraInterfaceView.swift in Sources */,

@@ -11,6 +11,7 @@ struct ToolView: View{
     
     @Environment(ARLogic.self) private var arLogic
     
+  
     
     let tapGesture = TapGesture()
     
@@ -24,20 +25,31 @@ struct ToolView: View{
                 
             }){
                 HStack{
-                    Image(systemName: "rectangle.3.group")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .imageScale(.small)
-                        .frame(width: 20, height: 20)
-                        .padding()
+                    
+                 
+                        
+                        
+                        Image(systemName: "rectangle.3.group")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .imageScale(.small)
+                            .frame(width: 20, height: 20)
+                            .padding()
+                         
+                    
+                    
                     
                 }
+                
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 
-            }.buttonStyle(PlainButtonStyle())
+                
+            }.buttonStyle(.plain)
             
-           
+            
+            
+            
             
             Button(action:{
                 arLogic.currentSelectedTool = .brush
@@ -51,17 +63,17 @@ struct ToolView: View{
                         .imageScale(.small)
                         .frame(width: 20, height: 20)
                         .padding()
-                        
+                    
                 }
-                    .background(.ultraThinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-               
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                
             }
             
             
             .buttonStyle(PlainButtonStyle())
             
-           
+            
             Button(action:{
                 arLogic.currentSelectedTool = .camera
                 print("DEBUG: Selected Camera Tool")
@@ -82,11 +94,12 @@ struct ToolView: View{
             
             
         }
-       
     }
-        
     
 }
+
+
+
 
 #Preview {
     ToolView()

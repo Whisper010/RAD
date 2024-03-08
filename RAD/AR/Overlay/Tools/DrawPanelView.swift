@@ -14,6 +14,8 @@ struct DrawPanelView: View {
     @State var selectedColor: Color = .blue
     let adjustedFont: Font = .caption
     
+    @State var start = Date.now
+    
     var body : some View{
         
         HStack{
@@ -27,18 +29,35 @@ struct DrawPanelView: View {
                 }
             }) {
                 VStack{
-                    HStack{
-                        Image(systemName: "eraser")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .imageScale(.small)
-                            .frame(width: 20, height: 20)
-                            .padding()
+                    TimelineView(.animation){ tl in
+                        let time = start.distance(to: tl.date)
+                        ZStack {
+                            if arLogic.currentActiveMode == .erasing {
+                                HStack{
+                                    Circle().fill(Color.blue)
+                                        .colorEffect(
+                                            ShaderLibrary.rainbow(.float(time))
+                                        )
+                                        .frame(width: 30, height: 30)
+                                }.clipShape(Circle())
+                            }
+                            HStack{
+                                Image(systemName: "eraser")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .imageScale(.small)
+                                    .frame(width: 20, height: 20)
+                                    .padding()
+                                    
+                            }
+                            .background( Material.ultraThin)
+                            .clipShape(Circle())
+                            
+                        }
+                        
+                        Text("Eraser")
+                            .font(adjustedFont)
                     }
-                    .background(arLogic.currentActiveMode == .erasing ? Material.ultraThick : Material.ultraThin)
-                    .clipShape(Circle())
-                    Text("Eraser")
-                        .font(adjustedFont)
                         
                 }
             }
@@ -54,19 +73,38 @@ struct DrawPanelView: View {
                 }
             }) {
                 VStack{
-                    HStack{
-                        Image(systemName: "paintbrush.pointed")
-                            .resizable()
+                    
+                    TimelineView(.animation){ tl in
+                        let time = start.distance(to: tl.date)
+                        ZStack {
+                            
+                            if arLogic.currentActiveMode == .drawing {
+                                HStack{
+                                    Circle().fill(Color.blue)
+                                        .colorEffect(
+                                            ShaderLibrary.rainbow(.float(time))
+                                        )
+                                        .frame(width: 30, height: 30)
+                                }.clipShape(Circle())
+                            }
+                            HStack{
+                                Image(systemName: "paintbrush.pointed")
+                                    .resizable()
+                                    .font(adjustedFont)
+                                    .aspectRatio(contentMode: .fit)
+                                    .imageScale(.small)
+                                    .frame(width: 20, height: 20)
+                                    .padding()
+                                    
+                            }
+                            .background( Material.ultraThin)
+                            .clipShape(Circle())
+                        }
+                        
+                        Text("Brush")
                             .font(adjustedFont)
-                            .aspectRatio(contentMode: .fit)
-                            .imageScale(.small)
-                            .frame(width: 20, height: 20)
-                            .padding()
+                            
                     }
-                    .background(arLogic.currentActiveMode == .drawing ? Material.ultraThick : Material.ultraThin)
-                    .clipShape(Circle())
-                    Text("Brush")
-                        .font(adjustedFont)
                     
                 }
             }

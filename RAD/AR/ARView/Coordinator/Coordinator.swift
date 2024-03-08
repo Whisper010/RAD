@@ -24,11 +24,67 @@ extension ARViewContainer {
         var cancellables = Set<AnyCancellable>()
         var drawingEnteties: [DrawingEntity] = []
         
+        // Define a publisher for drawing events
+        var drawPublisher = PassthroughSubject<DrawEvent, Never>()
         
+        enum DrawEvent {
+            case draw(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, maxHeight: Float, color: UIColor)
+        }
         
         
         override init(){
             super.init()
+            setupDrawSubcriber()
+            configureGestureRecognizer()
+            setupSubscriptions()
+        }
+        
+         func setupDrawSubcriber() {
+            drawPublisher
+                .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+                .receive(on: DispatchQueue.main)
+                .sink{[weak self] event in
+                    guard let self = self, let arView = self.arView else {return}
+                    
+                    switch event {
+                    case .draw(let startPosition, let endPosition, let maxHeight, let color):
+                        
+                        let tubeSegment =  createTube(startPosition: startPosition, endPosition: endPosition, radius: 0.002, segments: 9, maxHeight: maxHeight, color: selectedColor)
+                        
+                        createAndAddTubeSegments(startPosition: startPosition, endPosition: endPosition, maxHeight: maxHeight, color: color, to: arView)
+
+                        
+                        arView.scene.addAnchor(tubeSegment)
+                        
+                        drawingEnteties.append(DrawingEntity(anchor: tubeSegment, worldPosition: endPosition))
+                    }
+                }
+                .store(in: &cancellables)
+        }
+        private func createAndAddTubeSegments(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, maxHeight: Float, color: UIColor, to arView: ARView) {
+            var attachPosition = startPosition
+            var distanceToFill = simd_distance(endPosition, startPosition)
+
+            while distanceToFill > 0 {
+                let direction = normalize(endPosition - attachPosition)
+                let segmentLength =  min(maxHeight,distanceToFill)
+                let segmentEnd = attachPosition + direction * segmentLength
+                let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 9, maxHeight: segmentLength, color: color)
+
+                DispatchQueue.main.async {
+                    arView.scene.addAnchor(tubeSegmentToFill)
+                    self.drawingEnteties.append(DrawingEntity(anchor: tubeSegmentToFill, worldPosition: segmentEnd))
+                }
+
+                attachPosition = segmentEnd
+                distanceToFill -= segmentLength
+            }
+        }
+        
+   
+        private func publishDrawingEvent(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, maxHeight: Float, color: UIColor) {
+            
+            drawPublisher.send(.draw(startPosition: startPosition, endPosition: endPosition, maxHeight: maxHeight, color: color))
         }
         
         func captureARViewFrame(completion: @escaping (UIImage?) -> Void) {
@@ -117,7 +173,7 @@ extension ARViewContainer {
             guard let arView = arView else { return }
             let location = recognizer.location(in: arView)
             
-            var allowingMode: ARRaycastQuery.Target = .existingPlaneInfinite
+            var allowingMode: ARRaycastQuery.Target = .estimatedPlane
             
             switch drawState {
             case .drawing:
@@ -138,58 +194,29 @@ extension ARViewContainer {
                     }
                     
                 case .changed:
-                    if let position =  performRaycast(from: location, allowing: allowingMode, alignment: .any) {
-                        
-                        
-                        if let last = drawingEnteties.last {
+                    if let position =  performRaycast(from: location, allowing: allowingMode, alignment: .any), let last = drawingEnteties.last {
                             
-                            let startPosition = last.worldPosition
-                            let endPosition = position
-                            let maxHeight: Float = 0.005
-                            let tubeSegment = createTube(startPosition: startPosition, endPosition: endPosition, radius: 0.002, segments: 9, maxHeight: maxHeight, color: selectedColor)
-                            
-                            var distanceToFill =  simd_distance(endPosition ,startPosition)
-                            
-                            var attachPosition = startPosition
-                            
-                            // Fill with space with tube
-                            while distanceToFill > 0 {
-                               
-                                    let direction = normalize(endPosition - attachPosition)
-
-                                    
-                                    let segmentEnd = attachPosition + direction * min(maxHeight, distanceToFill)
-
-                                   
-                                    let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 18, maxHeight: maxHeight, color: selectedColor)
-
-//                                    if let child = tubeSegmentToFill.children.first as? HasCollision {
-//                                        arView.installGestures([], for: child)
-//                                    }
-                                    
-                                    arView.scene.addAnchor(tubeSegmentToFill)
+                        let startPosition = last.worldPosition
+                        var endPosition = position
+                        let maxHeight: Float = 0.007
+//                        let maxLength:Float = 0.3
+//                        
+//                        if simd_distance(startPosition, endPosition) > maxLength {
+//                            return
+//                        }
+//                        
+                        publishDrawingEvent(startPosition: startPosition, endPosition: endPosition, maxHeight: maxHeight, color: selectedColor)
                                 
-                                    drawingEnteties.append(DrawingEntity(anchor: tubeSegmentToFill, worldPosition: position))
 
-                                    attachPosition = segmentEnd
-
-        
-                                    distanceToFill -= min(maxHeight, distanceToFill)
-                            }
+                                //                            if let child = tubeSegment.children.first as? HasCollision {
+                                //                            arView.installGestures([], for: child)
+                                //                            }
+                                //
+                               
                             
-                            
-                            
-                            
-//                            if let child = tubeSegment.children.first as? HasCollision {
-//                            arView.installGestures([], for: child)
-//                            }
-//                            
-                            arView.scene.addAnchor(tubeSegment)
-                            
-                            drawingEnteties.append(DrawingEntity(anchor: tubeSegment, worldPosition: position))
                         }
                         
-                    }
+                    
                 default:
                     break
                 }

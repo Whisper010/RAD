@@ -14,6 +14,7 @@ struct OverlayView: View {
     
     var body: some View {
         VStack{
+            
             if arLogic.currentSelectedTool == .shape  {
                 ShapeView()
                     .transition(.move(edge: .bottom))
