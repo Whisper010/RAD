@@ -71,8 +71,8 @@ func generateTubeMesh(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, ra
         indices.append(contentsOf: [bottomI, topI, bottomNextI])
         indices.append(contentsOf: [topI, topNextI, bottomNextI])
         
-        indices.append(contentsOf: [bottomI,bottomNextI, topI ])
-        indices.append(contentsOf: [topI, bottomNextI, topNextI])
+//        indices.append(contentsOf: [bottomI,bottomNextI, topI ])
+//        indices.append(contentsOf: [topI, bottomNextI, topNextI])
     }
 
     return (vertices, indices)
