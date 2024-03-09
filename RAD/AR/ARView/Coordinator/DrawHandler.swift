@@ -40,6 +40,10 @@ func generateTubeMesh(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, ra
     var vertices: [SIMD3<Float>] = []
     var indices: [UInt32] = []
     let height = min(simd_distance(endPosition, startPosition), maxHeight)
+    
+    let direction = normalize(endPosition - startPosition)
+    let upVector = SIMD3<Float>(0,0,1)
+    let rotationMatrix = rotationBetween(from: upVector, to:direction)
 
     // Generate vertices for the tube
     for z in [0, height] {
@@ -47,7 +51,12 @@ func generateTubeMesh(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, ra
             let theta = 2 * Float.pi * Float(i) / Float(segments)
             let x = radius * cos(theta)
             let y = radius * sin(theta)
-            vertices.append(SIMD3<Float>(x, y, Float(z)))
+            
+            let originalVertex = SIMD3<Float>(x,y,Float(z))
+            let rotatedVectorSIMD4 = (rotationMatrix * SIMD4<Float>(originalVertex,1))
+            let rotatedVertex = SIMD3<Float>(rotatedVectorSIMD4.x, rotatedVectorSIMD4.y, rotatedVectorSIMD4.z)
+            
+            vertices.append(rotatedVertex)
         }
     }
 
@@ -69,6 +78,16 @@ func generateTubeMesh(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, ra
     return (vertices, indices)
 }
 
+func rotationBetween( from: SIMD3<Float>, to: SIMD3<Float>) -> float4x4 {
+    let crossProduct = cross(from, to)
+    let dotProduct = dot(from, to)
+    let s = sqrt((1+dotProduct)*2)
+    let invS = 1/s
+    
+    let q  = simd_quatf(ix: crossProduct.x * invS, iy: crossProduct.y * invS, iz: crossProduct.z * invS, r: s*0.5)
+    return float4x4(q)
+}
+
 func createTube( startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, radius: Float, segments: Int, maxHeight: Float, color: UIColor) -> AnchorEntity {
     
     let (vertices, indices) = generateTubeMesh(startPosition: startPosition, endPosition: endPosition, radius: radius, segments: segments, maxHeight: maxHeight)
@@ -86,20 +105,20 @@ func createTube( startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, radius:
     modelEntity.position = SIMD3(0, 0, 0)
     
     
-    // Rotate tube to my new position
-    let normalizedDirection = normalize(endPosition - startPosition)
-    
-    
-    let referenceVector = SIMD3<Float>(0, 0, 1)
-    
-    
-    let rotationAxis = cross(referenceVector, normalizedDirection)
-    let angle = acos(dot(referenceVector, normalizedDirection) / (length(referenceVector) * length(normalizedDirection)))
-    
-    
-    let rotation = simd_quatf(angle: angle , axis: rotationAxis)
-    modelEntity.transform.rotation = rotation
-    
+//    // Rotate tube to my new position
+//    let normalizedDirection = normalize(endPosition - startPosition)
+//    
+//    
+//    let referenceVector = SIMD3<Float>(0, 0, 1)
+//    
+//    
+//    let rotationAxis = cross(referenceVector, normalizedDirection)
+//    let angle = acos(dot(referenceVector, normalizedDirection) / (length(referenceVector) * length(normalizedDirection)))
+//    
+//    
+//    let rotation = simd_quatf(angle: angle , axis: rotationAxis)
+//    modelEntity.transform.rotation = rotation
+//    
     let anchorWithChild = AnchorEntity(world: startPosition)
     anchorWithChild.addChild(modelEntity)
     anchorWithChild.name = "Droplet"

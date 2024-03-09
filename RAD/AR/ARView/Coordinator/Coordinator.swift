@@ -11,6 +11,7 @@ import ARKit
 import Combine
 
 
+
 extension ARViewContainer {
     
     class Coordinator: NSObject {
@@ -68,7 +69,7 @@ extension ARViewContainer {
 
             while distanceToFill > 0 {
                 let direction = normalize(endPosition - attachPosition)
-                let segmentLength =  min(maxHeight,distanceToFill)
+                let segmentLength =  distanceToFill
                 let segmentEnd = attachPosition + direction * segmentLength
                 let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 9, maxHeight: segmentLength, color: color)
 
