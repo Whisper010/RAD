@@ -43,44 +43,52 @@ extension ARViewContainer {
         
          func setupDrawSubcriber() {
             drawPublisher
-                .subscribe(on: DispatchQueue.global(qos: .userInteractive))
-                .receive(on: DispatchQueue.main)
+                 .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+                 .receive(on: DispatchQueue.main)
                 .sink{[weak self] event in
+                    
                     guard let self = self, let arView = self.arView else {return}
+                    
+                    print("Current Thread: \(Thread.current)")
+                    
                     
                     switch event {
                     case .draw(let startPosition, let endPosition, let maxHeight, let color):
+  
+                        self.createAndAddTubeSegments(startPosition: startPosition, endPosition: endPosition, maxHeight: maxHeight, color: color, to: arView)
                         
-                        let tubeSegment =  createTube(startPosition: startPosition, endPosition: endPosition, radius: 0.002, segments: 9, maxHeight: maxHeight, color: selectedColor)
-                        
-                        createAndAddTubeSegments(startPosition: startPosition, endPosition: endPosition, maxHeight: maxHeight, color: color, to: arView)
-
-                        
+                        let tubeSegment =  createTube(startPosition: startPosition, endPosition: endPosition, radius: 0.002, segments: 9, maxHeight: maxHeight, color: self.selectedColor)
                         arView.scene.addAnchor(tubeSegment)
+                        self.drawingEnteties.append(DrawingEntity(anchor: tubeSegment, worldPosition: endPosition))
                         
-                        drawingEnteties.append(DrawingEntity(anchor: tubeSegment, worldPosition: endPosition))
+
                     }
                 }
                 .store(in: &cancellables)
         }
+        
         private func createAndAddTubeSegments(startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, maxHeight: Float, color: UIColor, to arView: ARView) {
-            var attachPosition = startPosition
-            var distanceToFill = simd_distance(endPosition, startPosition)
-
-            while distanceToFill > 0 {
-                let direction = normalize(endPosition - attachPosition)
-                let segmentLength =  distanceToFill
-                let segmentEnd = attachPosition + direction * segmentLength
-                let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 9, maxHeight: segmentLength, color: color)
-
-                DispatchQueue.main.async {
+           
+                
+                var attachPosition = startPosition
+                var distanceToFill = simd_distance(endPosition, startPosition)
+                
+                while distanceToFill > 0 {
+                    let direction = normalize(endPosition - attachPosition)
+                    let segmentLength =  distanceToFill
+                    let segmentEnd = attachPosition + direction * segmentLength
+                    let tubeSegmentToFill = createTube(startPosition: attachPosition, endPosition: segmentEnd, radius: 0.002, segments: 9, maxHeight: segmentLength, color: color)
+                    
+                    
                     arView.scene.addAnchor(tubeSegmentToFill)
                     self.drawingEnteties.append(DrawingEntity(anchor: tubeSegmentToFill, worldPosition: segmentEnd))
+                    
+                    
+                    attachPosition = segmentEnd
+                    distanceToFill -= segmentLength
                 }
-
-                attachPosition = segmentEnd
-                distanceToFill -= segmentLength
-            }
+            
+            
         }
         
    

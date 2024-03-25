@@ -5,14 +5,6 @@ struct CameraInterfaceView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(ARLogic.self) private var arLogic
     @State private var showingImageUploadView = false // State to manage presentation
-    
-//    init() {
-//        // Make navigation bar transparent
-//           UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-//           UINavigationBar.appearance().shadowImage = UIImage()
-//           UINavigationBar.appearance().isTranslucent = true
-//           UINavigationBar.appearance().backgroundColor = .clear
-//    }
 
     var body: some View {
             VStack {
@@ -80,13 +72,6 @@ struct CameraInterfaceView: View {
                                 ImageUploadCollectionViewController()
                             }
                        
-//                            Button(action: {}) {
-//                                Image(systemName: "photo.on.rectangle.angled")
-//                                    .font(.largeTitle)
-//                                    .foregroundColor(.white)
-//                            }
-//                            .padding(.trailing, 20) // Add padding to the trailing button
-//                            .opacity(0)
                         }
                         
                     

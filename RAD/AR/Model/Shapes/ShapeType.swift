@@ -23,7 +23,7 @@ enum ShapeType {
             return ShapeFactory.createModelEntity(vertices: ShapeFactory.createSquareVertices(size: 0.2))
         case .line:
             return ShapeFactory.createModelEntity(vertices:
-                                                    ShapeFactory.createLineVertices(length:50.0, thickness: 1.0))
+                ShapeFactory.createLineVertices(length:50.0, thickness: 1.0))
         default:
             fatalError("Shape not implemented")
         }

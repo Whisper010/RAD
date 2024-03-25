@@ -18,21 +18,7 @@ struct ShapeView: View {
             HStack() {
                 ForEach(shapes) { shape in
                     Button(action: {
-                        
                         arLogic.selectedModel = shape
-                        
-//                        if arLogic.currentActiveMode != .shaping || arLogic.selectedModel?.shapeType != shape.shapeType  {
-//                            
-//                            arLogic.currentActiveMode = .shaping
-//                            arLogic.selectedModel = shape
-//                            print("DEBUG: Shaping Mode Active")
-//                        } else {
-//                            arLogic.currentActiveMode = .none
-//                            arLogic.selectedModel = nil
-//                            print("DEBUG: Shaping Mode Inactive")
-//                        }
-                        
-                        
                     }) {
                         Image(shape.modelName)
                             .resizable()

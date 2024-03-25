@@ -90,6 +90,7 @@ func rotationBetween( from: SIMD3<Float>, to: SIMD3<Float>) -> float4x4 {
 
 func createTube( startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, radius: Float, segments: Int, maxHeight: Float, color: UIColor) -> AnchorEntity {
     
+    
     let (vertices, indices) = generateTubeMesh(startPosition: startPosition, endPosition: endPosition, radius: radius, segments: segments, maxHeight: maxHeight)
     
     // Create Mesh
@@ -97,12 +98,22 @@ func createTube( startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, radius:
     meshDescriptor.positions = .init(vertices)
     meshDescriptor.primitives = .triangles(indices)
     
-    let material = SimpleMaterial(color: color, isMetallic: false)
-    let mesh = try! MeshResource.generate(from: [meshDescriptor])
-    let modelEntity = ModelEntity(mesh: mesh, materials: [material])
-    modelEntity.generateCollisionShapes(recursive: true)
     
-    modelEntity.position = SIMD3(0, 0, 0)
+   
+    let anchorWithChild = AnchorEntity(world: startPosition)
+
+    do  {
+        let material = SimpleMaterial(color: color, isMetallic: false)
+        let mesh = try MeshResource.generate(from: [meshDescriptor])
+        let modelEntity = ModelEntity(mesh: mesh, materials: [material])
+        modelEntity.generateCollisionShapes(recursive: true)
+        modelEntity.position = SIMD3(0, 0, 0)
+        anchorWithChild.addChild(modelEntity)
+    }catch {
+        
+        print("Error generating mesh: \(error)")
+    }
+    
     
     
 //    // Rotate tube to my new position
@@ -119,11 +130,12 @@ func createTube( startPosition: SIMD3<Float>, endPosition: SIMD3<Float>, radius:
 //    let rotation = simd_quatf(angle: angle , axis: rotationAxis)
 //    modelEntity.transform.rotation = rotation
 //    
-    let anchorWithChild = AnchorEntity(world: startPosition)
-    anchorWithChild.addChild(modelEntity)
+    
+
     anchorWithChild.name = "Droplet"
     
     return anchorWithChild
+    
 }
 
 //func addVerticesToModelEntity(_ modelEntity: ModelEntity, newVertices: [SIMD3<Float>]) -> ModelEntity {

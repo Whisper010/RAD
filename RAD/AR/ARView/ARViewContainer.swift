@@ -50,6 +50,10 @@ struct ARViewContainer: UIViewRepresentable {
         
         arView.session.run(config)
         arView.renderOptions = .disableGroundingShadows
+            
+           
+//        arView.environment.sceneUnderstanding.options.insert(.receivesLighting)
+//        arView.environment.sceneUnderstanding.options.insert(.occlusion)
         
         // Subscribe for Event update every frame
         context.coordinator.setupSubscriptions()
