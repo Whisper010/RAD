@@ -11,3 +11,4 @@ DelineAR is an app that enhances the drawing experience by providing tools power
 
 ![Choose Color](Docs/ChooseColor.gif) 
 
+![Draw](Docs/Draw.gif) 
