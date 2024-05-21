@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct ImageUploadCollectionViewController: View {
     
@@ -36,30 +37,33 @@ struct ImageUploadCollectionViewController: View {
                 }
                 .padding()
             }
-            .background(Color.white) // Set the background color to white
+            .background(Color.white)
             .navigationBarTitle("Upload Images")
             .navigationBarItems(trailing: Button(action: {
                 dismiss()
             }) {
                 Text("Back")
             })
-            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+            .sheet(isPresented: $showingImagePicker, onDismiss: addImage) {
                 ImagePicker(image: self.$inputImage)
             }
         }
         .sheet(isPresented: $showingEditingView) {
             CameraSecondView(pickedImage: $pickedImage)
         }
-        .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle to support day mode
-        .colorScheme(.light) // Set color scheme to light for day mode
+        .navigationViewStyle(StackNavigationViewStyle())
+        .colorScheme(.light)
     }
     
 
-    func loadImage() {
+    func addImage() {
         guard let inputImage = inputImage else { return }
         arLogic.images.append(inputImage)
     }
+    
 }
+
+
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentationMode

@@ -17,6 +17,9 @@
         }
       }
     },
+    "Are you sure you want to save this image to your photo library?" : {
+
+    },
     "Back" : {
       "localizations" : {
         "it" : {
@@ -116,6 +119,15 @@
           }
         }
       }
+    },
+    "Save" : {
+
+    },
+    "Save Image" : {
+
+    },
+    "Save Result" : {
+
     },
     "This device does not support LiDAR technology. Some features may not be available." : {
       "localizations" : {

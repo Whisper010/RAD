@@ -4,7 +4,8 @@ import AVFoundation
 struct CameraInterfaceView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(ARLogic.self) private var arLogic
-    @State private var showingImageUploadView = false // State to manage presentation
+    
+    @State private var showingImageUploadView = false
 
     var body: some View {
             VStack {

@@ -133,7 +133,7 @@
             <Locations>
                <Location
                   uuid = "5E0DD23F-440A-4CAC-8ADA-6EF13B50EE85 - 8ef81ca5371f1334"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (RAD.ARViewContainer.Coordinator.DrawEvent) -&gt; () in RAD.ARViewContainer.Coordinator.setupDrawSubcriber() -&gt; ()"
@@ -148,7 +148,7 @@
                </Location>
                <Location
                   uuid = "5E0DD23F-440A-4CAC-8ADA-6EF13B50EE85 - 8ef81ca5371f1334"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (RAD.ARViewContainer.Coordinator.DrawEvent) -&gt; () in RAD.ARViewContainer.Coordinator.setupDrawSubcriber() -&gt; ()"
@@ -210,6 +210,38 @@
             endingLineNumber = "79"
             landmarkName = "createAndAddTubeSegments(startPosition:endPosition:maxHeight:color:to:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C5FF446-127F-4BD4-8D8D-49368C8FF9D1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RAD/AR/Overlay/Camera/CameraSecondView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6A918B12-AEE9-426F-881F-72C15B328B65"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RAD/AR/Overlay/Camera/CameraSecondView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
