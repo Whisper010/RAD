@@ -1,4 +1,4 @@
-# SolarSystem
+# DelineAR
 DelineAR is an app that enhances the drawing experience by providing tools powered with Augmented Reality technologies (AR) and allows users to save their work into their device's photo library.
 
 ## Features
