@@ -14,12 +14,12 @@ DelineAR is an app that enhances the drawing experience by providing tools power
 - #### Choose color from pallete
   | Choose Color |
   | ---- |
-| ![Choose Color](Docs/ChooseColor.gif) |
+  | ![Choose Color](Docs/ChooseColor.gif) |
 
 - #### Draw whatever is in your mind
   | Draw |
   | ---- |
-| ![Draw](Docs/Draw.gif) |
+  | ![Draw](Docs/Draw.gif) |
 
 - #### Erase something you don't like
   | Erase |
