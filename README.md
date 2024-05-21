@@ -12,23 +12,28 @@ DelineAR is an app that enhances the drawing experience by providing tools power
 ## Demo
 
 - #### Choose color from pallete
-  
+  | Choose Color |
+  | ---- |
 | ![Choose Color](Docs/ChooseColor.gif) |
 
 - #### Draw whatever is in your mind
-  
+  | Draw |
+  | ---- |
 | ![Draw](Docs/Draw.gif) |
 
 - #### Erase something you don't like
-  
-| ![Erase](Docs/Erase.gif) |
+  | Erase |
+  | ---- |
+  | ![Erase](Docs/Erase.gif) |
 
 - #### Integrate supportive shapes
-  
-| ![Simple Shapes](Docs/ShapeIntegration.gif) |
+  | Component Integration |
+  | ---- |
+  | ![Simple Shapes](Docs/ShapeIntegration.gif) |
 
 - #### Save your work
-  
-| ![Save Work](Docs/Save.gif) |
+  | Save Image |
+  | ---- |
+  | ![Save Work](Docs/SaveImage.gif) |
 
 
