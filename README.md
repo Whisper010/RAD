@@ -9,6 +9,21 @@ DelineAR is an app that enhances the drawing experience by providing tools power
 - #### Take a Picture and Save It in Lbirary:
   Take a picture in camera mode and save images with your AR drawings directly to your device's photo library. 
 
+## Demo
+
+#### Choose color from pallete
 ![Choose Color](Docs/ChooseColor.gif) 
 
+#### Draw whatever is in your mind
 ![Draw](Docs/Draw.gif) 
+
+#### Erase something you don't like
+![Erase](Docs/Erase.gif) 
+
+#### Integrate supportive shapes
+![Simple Shapes](Docs/ShapeIntegration.gif) 
+
+#### Save your work
+![Simple Shapes](Docs/ShapeIntegration.gif)
+
+
