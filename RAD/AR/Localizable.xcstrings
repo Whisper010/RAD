@@ -67,6 +67,22 @@
         }
       }
     },
+    "OK" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
     "Pallete" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -101,6 +117,22 @@
         }
       }
     },
+    "This device does not support LiDAR technology. Some features may not be available." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo dispositivo non supporta la tecnologia LiDAR. Alcune funzionalità potrebbero non essere disponibili."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это устройство не поддерживает технологию LiDAR. Некоторые функции могут быть недоступны."
+          }
+        }
+      }
+    },
     "Upload Images" : {
       "localizations" : {
         "it" : {
@@ -113,6 +145,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Загруженные фото"
+          }
+        }
+      }
+    },
+    "Warning" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avviso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внимание"
           }
         }
       }

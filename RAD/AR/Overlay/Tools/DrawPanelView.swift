@@ -50,7 +50,7 @@ struct DrawPanelView: View {
                                     .padding()
                                     
                             }
-                            .background( Material.ultraThin)
+                            .background(Material.ultraThin)
                             .clipShape(Circle())
                             
                         }

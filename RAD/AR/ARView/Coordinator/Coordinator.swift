@@ -43,7 +43,6 @@ extension ARViewContainer {
         
          func setupDrawSubcriber() {
             drawPublisher
-                 .subscribe(on: DispatchQueue.global(qos: .userInteractive))
                  .receive(on: DispatchQueue.main)
                 .sink{[weak self] event in
                     

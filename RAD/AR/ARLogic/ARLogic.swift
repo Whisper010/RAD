@@ -21,6 +21,7 @@ class ARLogic {
     
     var isModifying: Bool = false
     
+    var hasLidar: Bool = false
 }
 
 enum Tool{

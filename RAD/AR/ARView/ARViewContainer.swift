@@ -40,11 +40,13 @@ struct ARViewContainer: UIViewRepresentable {
         }
         
         if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
-            
             config.sceneReconstruction = .mesh
+            arLogic.hasLidar = false
             //
             //            // Enable automatic occlusion of virtual content by the mesh
             //            arView.environment.sceneUnderstanding.options.insert(.occlusion)
+        } else {
+            arLogic.hasLidar = true
         }
         
         
@@ -121,3 +123,4 @@ struct ARViewContainer: UIViewRepresentable {
         
     }
 }
+
