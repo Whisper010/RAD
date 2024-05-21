@@ -18,7 +18,20 @@
       }
     },
     "Are you sure you want to save this image to your photo library?" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sei sicuro di voler salvare questa immagine nella tua libreria fotografica?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите сохранить это изображение в вашей галерее?"
+          }
+        }
+      }
     },
     "Back" : {
       "localizations" : {
@@ -121,13 +134,52 @@
       }
     },
     "Save" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        }
+      }
     },
     "Save Image" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva Immagine"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохрание Изображения"
+          }
+        }
+      }
     },
     "Save Result" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Risultato Salvataggio"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Результат Сохраниния"
+          }
+        }
+      }
     },
     "This device does not support LiDAR technology. Some features may not be available." : {
       "localizations" : {
