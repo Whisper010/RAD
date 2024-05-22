@@ -27,7 +27,7 @@ DelineAR is an app that enhances the drawing experience by providing tools power
   | ![Erase](Docs/Erase.gif) |
 
 - #### Integrate supportive shapes
-  | Component Integration |
+  | Component Integrations |
   | ---- |
   | ![Simple Shapes](Docs/ShapeIntegration.gif) |
 
