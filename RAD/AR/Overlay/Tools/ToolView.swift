@@ -10,9 +10,7 @@ import SwiftUI
 struct ToolView: View{
     
     @Environment(ARLogic.self) private var arLogic
-    
-  
-    
+
     let tapGesture = TapGesture()
     
     var body: some View{
